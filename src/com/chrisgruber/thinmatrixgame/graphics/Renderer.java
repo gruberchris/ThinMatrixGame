@@ -13,7 +13,7 @@ public class Renderer {
     public void render(RawModel rawModel) {
         glBindVertexArray(rawModel.getVaoId());
         glEnableVertexAttribArray(0);   // TODO: need an ENUM to define VAO attributes I am using
-        glDrawArrays(GL_TRIANGLES, 0, rawModel.getVertexCount());   // draw model using triangles
+        glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, 0);    // Draw using index buffer and triangles
         glDisableVertexAttribArray(0);  // TODO: need an ENUM to define VAO attributes I am using
         glBindVertexArray(0);                                   // Unbind the VAO
     }

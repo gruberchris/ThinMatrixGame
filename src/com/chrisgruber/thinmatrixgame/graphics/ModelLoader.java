@@ -3,6 +3,7 @@ package com.chrisgruber.thinmatrixgame.graphics;
 import com.chrisgruber.thinmatrixgame.graphics.utils.BufferUtils;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,11 +41,20 @@ public class ModelLoader {
         glBindVertexArray(0);
     }
 
-    public RawModel loadToVao(float[] positions) {
+    private void bindIndicesBuffer(int[] indices) {
+        int vboId = glGenBuffers();
+        vboList.add(vboId);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboId);
+        IntBuffer buffer = BufferUtils.createIntBuffer(indices);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+    }
+
+    public RawModel loadToVao(float[] positions, int[] indices) {
         int vaoId = createVao();
+        bindIndicesBuffer(indices);
         storeDataInAttributeList(0, positions);     // using VAO attribute 0. Could be any 0 thru 15
         unbindVao();
-        return new RawModel(vaoId, positions.length / vertexLength);
+        return new RawModel(vaoId, indices.length);
     }
 
     public void Destroy() {

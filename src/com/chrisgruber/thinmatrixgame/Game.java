@@ -23,19 +23,19 @@ public class Game implements Runnable {
         ModelLoader modelLoader = new ModelLoader();
         Renderer renderer = new Renderer();
 
-        // TODO: temp model. Delete later
         float[] modelVertices = {
-                // Left bottom triangle
-                -0.5f, 0.5f, 0f,
-                -0.5f, -0.5f, 0f,
-                0.5f, -0.5f, 0f,
-                // Right top triangle
-                0.5f, -0.5f, 0f,
-                0.5f, 0.5f, 0f,
-                -0.5f, 0.5f, 0f
+                -0.5f, 0.5f, 0f,        // V0
+                -0.5f, -0.5f, 0f,       // V1
+                0.5f, -0.5f, 0f,        // V2
+                0.5f, 0.5f, 0f          // V3
         };
 
-        RawModel model = modelLoader.loadToVao(modelVertices);
+        int[] modelIndices = {
+                0, 1, 3,                // Top left triangle (V0, V1, V3)
+                3, 1, 2                 // Bottom right triangle (V3, V1, V2)
+        };
+
+        RawModel model = modelLoader.loadToVao(modelVertices, modelIndices);
 
         while(DisplayManager.shouldDisplayClose()) {
             renderer.prepare();
