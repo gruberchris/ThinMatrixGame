@@ -1,0 +1,8 @@
+# VS Code Editor
+.vscode
+
+# Intellij
+.idea
+*.iml
+
+out
