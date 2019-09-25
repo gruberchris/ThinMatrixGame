@@ -4,6 +4,7 @@ import com.chrisgruber.thinmatrixgame.graphics.DisplayManager;
 import com.chrisgruber.thinmatrixgame.graphics.ModelLoader;
 import com.chrisgruber.thinmatrixgame.graphics.RawModel;
 import com.chrisgruber.thinmatrixgame.graphics.Renderer;
+import com.chrisgruber.thinmatrixgame.graphics.shaders.StaticShader;
 
 public class Game implements Runnable {
     private Thread gameThread;
@@ -23,6 +24,9 @@ public class Game implements Runnable {
         ModelLoader modelLoader = new ModelLoader();
         Renderer renderer = new Renderer();
 
+        StaticShader staticShader = new StaticShader();
+        staticShader.create();
+
         float[] modelVertices = {
                 -0.5f, 0.5f, 0f,        // V0
                 -0.5f, -0.5f, 0f,       // V1
@@ -39,15 +43,14 @@ public class Game implements Runnable {
 
         while(DisplayManager.shouldDisplayClose()) {
             renderer.prepare();
-
-            // TODO: game logic
-
+            staticShader.bind();
             renderer.render(model);
-
+            staticShader.unbind();
             DisplayManager.updateDisplay();
         }
 
-        modelLoader.Destroy();
+        staticShader.destroy();
+        modelLoader.destroy();
         DisplayManager.closeDisplay();
     }
 

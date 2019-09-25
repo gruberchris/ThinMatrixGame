@@ -57,7 +57,7 @@ public class ModelLoader {
         return new RawModel(vaoId, indices.length);
     }
 
-    public void Destroy() {
+    public void destroy() {
         for (int vaoId : vaoList) {
             glDeleteVertexArrays(vaoId);
         }
