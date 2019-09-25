@@ -1,5 +1,8 @@
 package com.chrisgruber.thinmatrixgame.graphics;
 
+import com.chrisgruber.thinmatrixgame.graphics.models.RawModel;
+import com.chrisgruber.thinmatrixgame.graphics.models.TexturedModel;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
@@ -16,5 +19,20 @@ public class Renderer {
         glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, 0);    // Draw using index buffer and triangles
         glDisableVertexAttribArray(0);  // TODO: need an ENUM to define VAO attributes I am using
         glBindVertexArray(0);                                   // Unbind the VAO
+    }
+
+    public void render(TexturedModel texturedModel) {
+        RawModel rawModel = texturedModel.getRawModel();
+        int textureId = texturedModel.getModelTexture().getId();
+
+        glBindVertexArray(rawModel.getVaoId());
+        glEnableVertexAttribArray(0);   // VAO 0 = vertex spacial coordinates
+        glEnableVertexAttribArray(1);   // VAO 1 = texture coordinates
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureId);    // sampler2D in fragement shader  uses texture bank 0 by default
+        glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, 0);    // Draw using index buffer and triangles
+        glDisableVertexAttribArray(0);  // VAO 0 = vertex spacial coordinates
+        glDisableVertexAttribArray(1);  // VAO 1 = texture coordinates
+        glBindVertexArray(0);   // Unbind the VAO
     }
 }

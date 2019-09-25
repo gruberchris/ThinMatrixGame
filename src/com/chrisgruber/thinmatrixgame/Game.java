@@ -2,9 +2,11 @@ package com.chrisgruber.thinmatrixgame;
 
 import com.chrisgruber.thinmatrixgame.graphics.DisplayManager;
 import com.chrisgruber.thinmatrixgame.graphics.ModelLoader;
-import com.chrisgruber.thinmatrixgame.graphics.RawModel;
+import com.chrisgruber.thinmatrixgame.graphics.models.RawModel;
 import com.chrisgruber.thinmatrixgame.graphics.Renderer;
+import com.chrisgruber.thinmatrixgame.graphics.models.TexturedModel;
 import com.chrisgruber.thinmatrixgame.graphics.shaders.StaticShader;
+import com.chrisgruber.thinmatrixgame.graphics.textures.ModelTexture;
 
 public class Game implements Runnable {
     private Thread gameThread;
@@ -39,12 +41,21 @@ public class Game implements Runnable {
                 3, 1, 2                 // Bottom right triangle (V3, V1, V2)
         };
 
-        RawModel model = modelLoader.loadToVao(modelVertices, modelIndices);
+        float[] textureCoords = {
+                0, 0,                   // V0
+                0, 1,                   // V1
+                1, 1,                   // V2
+                1, 0                    // V3
+        };
+
+        RawModel model = modelLoader.loadToVao(modelVertices, textureCoords, modelIndices);
+        ModelTexture modelTexture = new ModelTexture(modelLoader.loadTexture("resources/theman.png"));
+        TexturedModel texturedModel = new TexturedModel(model, modelTexture);
 
         while(DisplayManager.shouldDisplayClose()) {
             renderer.prepare();
             staticShader.bind();
-            renderer.render(model);
+            renderer.render(texturedModel);
             staticShader.unbind();
             DisplayManager.updateDisplay();
         }

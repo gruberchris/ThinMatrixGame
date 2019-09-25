@@ -49,6 +49,8 @@ public abstract class ShaderProgramBase {
         glAttachShader(programId, vertexShaderId);
         glAttachShader(programId, fragmentShaderId);
 
+        bindAttributes();
+
         // Linking
         glLinkProgram(programId);
         if (glGetProgrami(programId, GL_LINK_STATUS) == GL_FALSE) {

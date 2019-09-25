@@ -18,9 +18,9 @@ public abstract class ShaderProgramThinMatrixBase {
         vertexShaderId = loadShader(vertexFile, GL_VERTEX_SHADER);
         fragmentShaderId = loadShader(fragmentFile, GL_FRAGMENT_SHADER);
         programId = glCreateProgram();
-
         glAttachShader(programId, vertexShaderId);
         glAttachShader(programId, fragmentShaderId);
+        bindAttributes();
         glLinkProgram(programId);
         glValidateProgram(programId);
     }
