@@ -1,6 +1,11 @@
 package com.chrisgruber.thinmatrixgame.graphics.shaders;
 
 import com.chrisgruber.thinmatrixgame.graphics.utils.FileUtils;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.lwjgl.BufferUtils;
+
+import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -8,6 +13,8 @@ import static org.lwjgl.opengl.GL20.*;
 public abstract class ShaderProgramBase {
     private String vertexFile, fragmentFile;
     private int programId, vertexShaderId, fragmentShaderId;
+
+    private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
 
     public ShaderProgramBase(String vertexPath, String fragmentPath) {
         vertexFile = FileUtils.loadAsString(vertexPath);
@@ -18,6 +25,30 @@ public abstract class ShaderProgramBase {
 
     protected void bindAttribute(int attribute, String variableName) {
         glBindAttribLocation(programId, attribute, variableName);
+    }
+
+    protected int getUniformLocation(String uniformName) {
+        return glGetUniformLocation(programId, uniformName);
+    }
+
+    protected abstract void getAllUniformLocations();
+
+    protected  void loadFloat(int location, float value) {
+        glUniform1f(location, value);
+    }
+
+    protected void loadVector(int location, Vector3f vector) {
+        glUniform3f(location, vector.x, vector.y, vector.z);
+    }
+
+    protected void loadBoolean(int location, boolean value) {
+        glUniform1f(location, value ? 1 : 0);
+    }
+
+    protected void loadMatrix(int location, Matrix4f matrix) {
+        matrix.get(matrixBuffer);
+        matrixBuffer.flip();
+        glUniformMatrix4fv(location, false, matrixBuffer);
     }
 
     public void create() {
@@ -62,6 +93,8 @@ public abstract class ShaderProgramBase {
         if (glGetProgrami(programId, GL_VALIDATE_STATUS) == GL_FALSE) {
             throw new RuntimeException("Program Validation: " + glGetProgramInfoLog(programId));
         }
+
+        getAllUniformLocations();
     }
 
     public void bind() {
