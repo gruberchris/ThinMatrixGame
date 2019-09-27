@@ -27,8 +27,9 @@ public class Renderer {
     }
 
     public void prepare() {
+        glEnable(GL_DEPTH_TEST);    // test which triangles are in front and render them in the correct order
         glClearColor(1, 0, 0, 1);      // Load selected color into the color buffer
-        glClear(GL_COLOR_BUFFER_BIT);                           // Clear screen and draw with color in color buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // Clear screen and draw with color in color buffer
     }
 
     public void render(RawModel rawModel) {
