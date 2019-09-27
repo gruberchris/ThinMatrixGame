@@ -2,11 +2,13 @@ package com.chrisgruber.thinmatrixgame;
 
 import com.chrisgruber.thinmatrixgame.graphics.DisplayManager;
 import com.chrisgruber.thinmatrixgame.graphics.ModelLoader;
+import com.chrisgruber.thinmatrixgame.graphics.entities.Entity;
 import com.chrisgruber.thinmatrixgame.graphics.models.RawModel;
 import com.chrisgruber.thinmatrixgame.graphics.Renderer;
 import com.chrisgruber.thinmatrixgame.graphics.models.TexturedModel;
 import com.chrisgruber.thinmatrixgame.graphics.shaders.StaticShader;
 import com.chrisgruber.thinmatrixgame.graphics.textures.ModelTexture;
+import org.joml.Vector3f;
 
 public class Game implements Runnable {
     private Thread gameThread;
@@ -51,11 +53,16 @@ public class Game implements Runnable {
         RawModel model = modelLoader.loadToVao(modelVertices, textureCoords, modelIndices);
         ModelTexture modelTexture = new ModelTexture(modelLoader.loadTexture("resources/theman.png"));
         TexturedModel texturedModel = new TexturedModel(model, modelTexture);
+        Entity entity = new Entity(texturedModel, new Vector3f(-0.5f, 0, 0), 0, 0, 0, 1);
 
         while(DisplayManager.shouldDisplayClose()) {
+            // move the entity and rotate each frame
+            entity.increasePosition(0.002f, 0, 0);
+            entity.increaseRotation(0, 1, 0);
+
             renderer.prepare();
             staticShader.bind();
-            renderer.render(texturedModel);
+            renderer.render(entity, staticShader);
             staticShader.unbind();
             DisplayManager.updateDisplay();
         }

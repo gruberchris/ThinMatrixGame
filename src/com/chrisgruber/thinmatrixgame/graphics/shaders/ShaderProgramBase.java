@@ -14,7 +14,7 @@ public abstract class ShaderProgramBase {
     private String vertexFile, fragmentFile;
     private int programId, vertexShaderId, fragmentShaderId;
 
-    private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
+    private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);    // 16 is a 4 x 4 matrix
 
     public ShaderProgramBase(String vertexPath, String fragmentPath) {
         vertexFile = FileUtils.loadAsString(vertexPath);
@@ -46,9 +46,7 @@ public abstract class ShaderProgramBase {
     }
 
     protected void loadMatrix(int location, Matrix4f matrix) {
-        matrix.get(matrixBuffer);
-        matrixBuffer.flip();
-        glUniformMatrix4fv(location, false, matrixBuffer);
+        glUniformMatrix4fv(location, false, matrix.get(matrixBuffer));
     }
 
     public void create() {

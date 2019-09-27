@@ -3,8 +3,6 @@ package com.chrisgruber.thinmatrixgame.graphics;
 import com.chrisgruber.thinmatrixgame.graphics.models.RawModel;
 import com.chrisgruber.thinmatrixgame.graphics.utils.BufferUtils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -62,29 +60,10 @@ public class ModelLoader {
         return new RawModel(vaoId, indices.length);
     }
 
-    /*
-    public int loadTexture(String filename) {
-        Texture texture = null;
-
-        try {
-            texture = TextureLoader.getTexture("PNG", new FileInputStream("resource/" + filename + ".png"));
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-
-        int textureId = texture.getTextureID();
-        textureList.add(textureId);
-        return textureId;
-    }
-
-     */
-
     public int loadTexture(String filename) {
         TextureLoader textureLoader = new TextureLoader(filename);
         int textureId = textureLoader.getTextureId();
-
         textureList.add(textureId);
-
         return textureId;
     }
 
