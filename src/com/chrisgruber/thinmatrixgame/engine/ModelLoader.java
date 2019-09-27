@@ -1,7 +1,7 @@
-package com.chrisgruber.thinmatrixgame.graphics;
+package com.chrisgruber.thinmatrixgame.engine;
 
-import com.chrisgruber.thinmatrixgame.graphics.models.RawModel;
-import com.chrisgruber.thinmatrixgame.graphics.utils.BufferUtils;
+import com.chrisgruber.thinmatrixgame.engine.models.RawModel;
+import com.chrisgruber.thinmatrixgame.engine.utils.BufferUtils;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;

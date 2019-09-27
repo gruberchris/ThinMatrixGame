@@ -1,4 +1,4 @@
-package com.chrisgruber.thinmatrixgame.graphics.models;
+package com.chrisgruber.thinmatrixgame.engine.models;
 
 public class RawModel {
     private int vaoId;

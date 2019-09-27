@@ -1,6 +1,6 @@
-package com.chrisgruber.thinmatrixgame.graphics.models;
+package com.chrisgruber.thinmatrixgame.engine.models;
 
-import com.chrisgruber.thinmatrixgame.graphics.textures.ModelTexture;
+import com.chrisgruber.thinmatrixgame.engine.textures.ModelTexture;
 
 public class TexturedModel {
     private RawModel rawModel;

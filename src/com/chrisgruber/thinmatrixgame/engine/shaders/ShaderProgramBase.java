@@ -1,6 +1,6 @@
-package com.chrisgruber.thinmatrixgame.graphics.shaders;
+package com.chrisgruber.thinmatrixgame.engine.shaders;
 
-import com.chrisgruber.thinmatrixgame.graphics.utils.FileUtils;
+import com.chrisgruber.thinmatrixgame.engine.utils.FileUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;

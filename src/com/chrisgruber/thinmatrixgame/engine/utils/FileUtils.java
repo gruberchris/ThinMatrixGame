@@ -1,4 +1,4 @@
-package com.chrisgruber.thinmatrixgame.graphics.utils;
+package com.chrisgruber.thinmatrixgame.engine.utils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

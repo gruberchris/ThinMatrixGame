@@ -1,4 +1,4 @@
-package com.chrisgruber.thinmatrixgame.graphics.textures;
+package com.chrisgruber.thinmatrixgame.engine.textures;
 
 public class ModelTexture {
     private int id;

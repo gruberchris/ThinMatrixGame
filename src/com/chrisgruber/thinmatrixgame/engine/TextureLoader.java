@@ -1,10 +1,10 @@
-package com.chrisgruber.thinmatrixgame.graphics;
+package com.chrisgruber.thinmatrixgame.engine;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import com.chrisgruber.thinmatrixgame.graphics.utils.BufferUtils;
+import com.chrisgruber.thinmatrixgame.engine.utils.BufferUtils;
 import javax.imageio.ImageIO;
 
 import static org.lwjgl.opengl.GL11.*;

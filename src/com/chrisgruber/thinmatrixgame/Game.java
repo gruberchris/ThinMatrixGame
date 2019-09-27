@@ -1,13 +1,14 @@
 package com.chrisgruber.thinmatrixgame;
 
-import com.chrisgruber.thinmatrixgame.graphics.DisplayManager;
-import com.chrisgruber.thinmatrixgame.graphics.ModelLoader;
-import com.chrisgruber.thinmatrixgame.graphics.entities.Entity;
-import com.chrisgruber.thinmatrixgame.graphics.models.RawModel;
-import com.chrisgruber.thinmatrixgame.graphics.Renderer;
-import com.chrisgruber.thinmatrixgame.graphics.models.TexturedModel;
-import com.chrisgruber.thinmatrixgame.graphics.shaders.StaticShader;
-import com.chrisgruber.thinmatrixgame.graphics.textures.ModelTexture;
+import com.chrisgruber.thinmatrixgame.engine.DisplayManager;
+import com.chrisgruber.thinmatrixgame.engine.ModelLoader;
+import com.chrisgruber.thinmatrixgame.engine.entities.Camera;
+import com.chrisgruber.thinmatrixgame.engine.entities.Entity;
+import com.chrisgruber.thinmatrixgame.engine.models.RawModel;
+import com.chrisgruber.thinmatrixgame.engine.Renderer;
+import com.chrisgruber.thinmatrixgame.engine.models.TexturedModel;
+import com.chrisgruber.thinmatrixgame.engine.shaders.StaticShader;
+import com.chrisgruber.thinmatrixgame.engine.textures.ModelTexture;
 import org.joml.Vector3f;
 
 public class Game implements Runnable {
@@ -26,10 +27,11 @@ public class Game implements Runnable {
         System.out.println("OpenGL: " + DisplayManager.getOpenGlVersionMessage());
 
         ModelLoader modelLoader = new ModelLoader();
-        Renderer renderer = new Renderer();
 
         StaticShader staticShader = new StaticShader();
         staticShader.create();
+
+        Renderer renderer = new Renderer(staticShader);
 
         float[] modelVertices = {
                 -0.5f, 0.5f, 0f,        // V0
@@ -53,15 +55,19 @@ public class Game implements Runnable {
         RawModel model = modelLoader.loadToVao(modelVertices, textureCoords, modelIndices);
         ModelTexture modelTexture = new ModelTexture(modelLoader.loadTexture("resources/theman.png"));
         TexturedModel texturedModel = new TexturedModel(model, modelTexture);
-        Entity entity = new Entity(texturedModel, new Vector3f(-0.5f, 0, 0), 0, 0, 0, 1);
+        Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -5), 0, 0, 0, 1);
+        Camera camera = new Camera();
 
         while(DisplayManager.shouldDisplayClose()) {
             // move the entity and rotate each frame
-            entity.increasePosition(0.002f, 0, 0);
-            entity.increaseRotation(0, 1, 0);
+            //entity.increasePosition(0, 0, -0.1f);
+            entity.increaseRotation(1, 1, 0);
+
+            camera.move();
 
             renderer.prepare();
             staticShader.bind();
+            staticShader.loadViewMatrix(camera);
             renderer.render(entity, staticShader);
             staticShader.unbind();
             DisplayManager.updateDisplay();

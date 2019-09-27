@@ -1,6 +1,6 @@
-package com.chrisgruber.thinmatrixgame.graphics.entities;
+package com.chrisgruber.thinmatrixgame.engine.entities;
 
-import com.chrisgruber.thinmatrixgame.graphics.models.TexturedModel;
+import com.chrisgruber.thinmatrixgame.engine.models.TexturedModel;
 import org.joml.Vector3f;
 
 public class Entity {

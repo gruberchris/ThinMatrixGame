@@ -1,5 +1,6 @@
-package com.chrisgruber.thinmatrixgame.graphics;
+package com.chrisgruber.thinmatrixgame.engine;
 
+import com.chrisgruber.thinmatrixgame.engine.io.Keyboard;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -34,6 +35,9 @@ public class DisplayManager {
         GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         assert vidMode != null;
         glfwSetWindowPos(window, (vidMode.width() - WINDOW_WIDTH) / 2, (vidMode.height() - WINDOW_HEIGHT) / 2);
+
+        // register keyboard input callback
+        glfwSetKeyCallback(window, new Keyboard());
 
         glfwMakeContextCurrent(window);
         createCapabilities();
@@ -79,5 +83,13 @@ public class DisplayManager {
             frames = 0;
             time = 0;
         }
+    }
+
+    public static int getWindowWidth() {
+        return WINDOW_WIDTH;
+    }
+
+    public static int getWindowHeight() {
+        return WINDOW_HEIGHT;
     }
 }
