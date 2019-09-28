@@ -34,7 +34,7 @@ public class Game implements Runnable {
         Renderer renderer = new Renderer(staticShader);
 
         RawModel model = ObjLoader.loadObjModel("resources/dragon.obj", modelLoader);
-        ModelTexture modelTexture = new ModelTexture(modelLoader.loadTexture("resources/white.png"));
+        ModelTexture modelTexture = new ModelTexture(modelLoader.loadTexture("resources/smallassortedflowers.png"));
         TexturedModel texturedModel = new TexturedModel(model, modelTexture);
         Entity entity = new Entity(texturedModel, new Vector3f(0, -4.5f, -25), 0, 0, 0, 1);
         Light light = new Light(new Vector3f(0, 0, -20), new Vector3f(1, 1,1));
