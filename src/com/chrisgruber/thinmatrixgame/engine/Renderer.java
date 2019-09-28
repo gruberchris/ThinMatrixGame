@@ -4,6 +4,7 @@ import com.chrisgruber.thinmatrixgame.engine.entities.Entity;
 import com.chrisgruber.thinmatrixgame.engine.models.RawModel;
 import com.chrisgruber.thinmatrixgame.engine.models.TexturedModel;
 import com.chrisgruber.thinmatrixgame.engine.shaders.StaticShader;
+import com.chrisgruber.thinmatrixgame.engine.textures.ModelTexture;
 import com.chrisgruber.thinmatrixgame.engine.utils.Maths;
 import org.joml.Matrix4f;
 
@@ -28,7 +29,7 @@ public class Renderer {
 
     public void prepare() {
         glEnable(GL_DEPTH_TEST);    // test which triangles are in front and render them in the correct order
-        glClearColor(1, 0, 0, 1);      // Load selected color into the color buffer
+        glClearColor(.95f, .9f, .67f, 1);      // Load selected color into the color buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // Clear screen and draw with color in color buffer
     }
 
@@ -42,7 +43,7 @@ public class Renderer {
 
     public void render(TexturedModel texturedModel) {
         RawModel rawModel = texturedModel.getRawModel();
-        int textureId = texturedModel.getModelTexture().getId();
+        int textureId = texturedModel.getModelTexture().getTextureId();
 
         glBindVertexArray(rawModel.getVaoId());
         glEnableVertexAttribArray(0);   // VAO 0 = vertex spacial coordinates
@@ -59,7 +60,7 @@ public class Renderer {
     public void render(Entity entity, StaticShader staticShader) {
         TexturedModel texturedModel = entity.getTexturedModel();
         RawModel rawModel = texturedModel.getRawModel();
-        int textureId = texturedModel.getModelTexture().getId();
+        int textureId = texturedModel.getModelTexture().getTextureId();
 
         glBindVertexArray(rawModel.getVaoId());
         glEnableVertexAttribArray(0);   // VAO 0 = vertex spacial coordinates
@@ -69,6 +70,8 @@ public class Renderer {
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotationX(), entity.getRotationY(), entity.getRotationZ(), entity.getScale());
         staticShader.loadTransformationMatrix(transformationMatrix);
 
+        ModelTexture texture = texturedModel.getModelTexture();
+        staticShader.loadSpecularLight(texture.getShineDamper(), texture.getReflectivity());
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureId);    // sampler2D in fragment shader  uses texture bank 0 by default
         glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, 0);    // Draw using index buffer and triangles
