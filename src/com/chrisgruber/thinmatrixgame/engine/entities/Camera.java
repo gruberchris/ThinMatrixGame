@@ -31,6 +31,20 @@ public class Camera {
         if (Keyboard.isKeyDown(GLFW_KEY_A)) {
             position.x -= 0.02f;
         }
+
+        if (Keyboard.isKeyDown(GLFW_KEY_Q)) {
+            position.y += 0.02f;
+        }
+
+        if (Keyboard.isKeyDown(GLFW_KEY_E)) {
+            position.y -= 0.02f;
+        }
+
+        if (Keyboard.isKeyDown(GLFW_KEY_Z)) {
+            position.x = 0;
+            position.y = 0;
+            position.z = 0;
+        }
     }
 
     public Vector3f getPosition() {
