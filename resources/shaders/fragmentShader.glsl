@@ -17,7 +17,7 @@ void main(void) {
     vec3 unitLightVector = normalize(toLightVector);
 
     float nDotl = dot(unitNormal, unitLightVector); // dot product calculation of 2 vectors. nDotl is how bright this pixel should be. difference of the position and normal vector to the light source
-    float brightness = max(nDotl, 0.0); // clamp the brightness result value to between 0 and 1. values less than 0 are clamped to 0
+    float brightness = max(nDotl, 0.2); // clamp the brightness result value to between 0 and 1. values less than 0 are clamped to 0.2. to leave a little more diffuse light
     vec3 diffuse = brightness * lightColor; // calculate final color of this pixel by how much light it has
 
     vec3 unitVectorToCamera = normalize(toCameraVector);
