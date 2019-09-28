@@ -20,6 +20,10 @@ public class Renderer {
     private Matrix4f projectionMatrix;
 
     public Renderer(StaticShader staticShader) {
+        // don't texture surfaces with normal vectors facing away from the "camera". don't render back faces of the a model
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+
         createProjectionMatrix();
         staticShader.create();
         staticShader.bind();
