@@ -5,6 +5,7 @@ import com.chrisgruber.thinmatrixgame.engine.ModelLoader;
 import com.chrisgruber.thinmatrixgame.engine.ObjLoader;
 import com.chrisgruber.thinmatrixgame.engine.entities.Camera;
 import com.chrisgruber.thinmatrixgame.engine.entities.Entity;
+import com.chrisgruber.thinmatrixgame.engine.entities.Light;
 import com.chrisgruber.thinmatrixgame.engine.models.RawModel;
 import com.chrisgruber.thinmatrixgame.engine.Renderer;
 import com.chrisgruber.thinmatrixgame.engine.models.TexturedModel;
@@ -32,10 +33,11 @@ public class Game implements Runnable {
         staticShader.create();
         Renderer renderer = new Renderer(staticShader);
 
-        RawModel model = ObjLoader.loadObjModel("resources/stall.obj", modelLoader);
-        ModelTexture modelTexture = new ModelTexture(modelLoader.loadTexture("resources/stallTexture.png"));
+        RawModel model = ObjLoader.loadObjModel("resources/dragon.obj", modelLoader);
+        ModelTexture modelTexture = new ModelTexture(modelLoader.loadTexture("resources/white.png"));
         TexturedModel texturedModel = new TexturedModel(model, modelTexture);
-        Entity entity = new Entity(texturedModel, new Vector3f(0, -2.5f, -15), 0, 0, 0, 1);
+        Entity entity = new Entity(texturedModel, new Vector3f(0, -4.5f, -25), 0, 0, 0, 1);
+        Light light = new Light(new Vector3f(0, 0, -20), new Vector3f(1, 1,1));
         Camera camera = new Camera();
 
         while(DisplayManager.shouldDisplayClose()) {
@@ -47,6 +49,7 @@ public class Game implements Runnable {
 
             renderer.prepare();
             staticShader.bind();
+            staticShader.loadLight(light);
             staticShader.loadViewMatrix(camera);
             renderer.render(entity, staticShader);
             staticShader.unbind();

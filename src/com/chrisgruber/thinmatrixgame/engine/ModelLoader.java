@@ -51,11 +51,12 @@ public class ModelLoader {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
     }
 
-    public RawModel loadToVao(float[] positions, float[] textureCoords, int[] indices) {
+    public RawModel loadToVao(float[] positions, float[] textureCoords, float[] normals, int[] indices) {
         int vaoId = createVao();
         bindIndicesBuffer(indices);
         storeDataInAttributeList(0, 3, positions);     // using VAO attribute 0. Could be any 0 thru 15
         storeDataInAttributeList(1, 2, textureCoords);
+        storeDataInAttributeList(2, 3, normals);
         unbindVao();
         return new RawModel(vaoId, indices.length);
     }

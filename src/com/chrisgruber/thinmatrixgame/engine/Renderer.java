@@ -52,6 +52,7 @@ public class Renderer {
         glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, 0);    // Draw using index buffer and triangles
         glDisableVertexAttribArray(0);  // VAO 0 = vertex spacial coordinates
         glDisableVertexAttribArray(1);  // VAO 1 = texture coordinates
+        glDisableVertexAttribArray(2);  // VAO 2 = normals
         glBindVertexArray(0);   // Unbind the VAO
     }
 
@@ -63,6 +64,7 @@ public class Renderer {
         glBindVertexArray(rawModel.getVaoId());
         glEnableVertexAttribArray(0);   // VAO 0 = vertex spacial coordinates
         glEnableVertexAttribArray(1);   // VAO 1 = texture coordinates
+        glEnableVertexAttribArray(2);   // VAO 2 = normals
 
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotationX(), entity.getRotationY(), entity.getRotationZ(), entity.getScale());
         staticShader.loadTransformationMatrix(transformationMatrix);
@@ -72,6 +74,7 @@ public class Renderer {
         glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, 0);    // Draw using index buffer and triangles
         glDisableVertexAttribArray(0);  // VAO 0 = vertex spacial coordinates
         glDisableVertexAttribArray(1);  // VAO 1 = texture coordinates
+        glDisableVertexAttribArray(2);  // VAO 2 = normals
         glBindVertexArray(0);   // Unbind the VAO
     }
 
