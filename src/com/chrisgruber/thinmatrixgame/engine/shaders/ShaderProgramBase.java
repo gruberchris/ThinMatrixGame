@@ -19,6 +19,8 @@ public abstract class ShaderProgramBase {
     public ShaderProgramBase(String vertexPath, String fragmentPath) {
         vertexFile = FileUtils.loadAsString(vertexPath);
         fragmentFile = FileUtils.loadAsString(fragmentPath);
+
+        create();
     }
 
     protected abstract void bindAttributes();
@@ -49,7 +51,7 @@ public abstract class ShaderProgramBase {
         glUniformMatrix4fv(location, false, matrix.get(matrixBuffer));
     }
 
-    public void create() {
+    private void create() {
         programId = glCreateProgram();
         vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
 

@@ -15,29 +15,42 @@ public class Camera {
         position = new Vector3f(0, 0,0);
     }
 
+    public Camera(int x, int y, int z) {
+        position = new Vector3f(x, y, z);
+    }
+
+    public Camera(int x, int y, int z, float pitch, float yaw, float roll) {
+        position = new Vector3f(x, y, z);
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.roll = roll;
+    }
+
     public void move() {
+        final float MOVE_RATE = 0.25f;
+
         if (Keyboard.isKeyDown(GLFW_KEY_W)) {
-            position.z -= 0.02f;
+            position.z -= MOVE_RATE;
         }
 
         if (Keyboard.isKeyDown(GLFW_KEY_S)) {
-            position.z += 0.02f;
+            position.z += MOVE_RATE;
         }
 
         if (Keyboard.isKeyDown(GLFW_KEY_D)) {
-            position.x += 0.02f;
+            position.x += MOVE_RATE;
         }
 
         if (Keyboard.isKeyDown(GLFW_KEY_A)) {
-            position.x -= 0.02f;
+            position.x -= MOVE_RATE;
         }
 
         if (Keyboard.isKeyDown(GLFW_KEY_Q)) {
-            position.y += 0.02f;
+            position.y += MOVE_RATE;
         }
 
         if (Keyboard.isKeyDown(GLFW_KEY_E)) {
-            position.y -= 0.02f;
+            position.y -= MOVE_RATE;
         }
 
         if (Keyboard.isKeyDown(GLFW_KEY_Z)) {
@@ -61,5 +74,29 @@ public class Camera {
 
     public float getRoll() {
         return roll;
+    }
+
+    public void setX(int x) {
+        position.x = x;
+    }
+
+    public void setY(int y) {
+        position.y = y;
+    }
+
+    public void setZ(int z) {
+        position.z = z;
+    }
+
+    public void setPitch(float pitch) {
+        this.pitch = pitch;
+    }
+
+    public void setYaw(float yaw) {
+        this.yaw = yaw;
+    }
+
+    public void setRoll(float roll) {
+        this.roll = roll;
     }
 }

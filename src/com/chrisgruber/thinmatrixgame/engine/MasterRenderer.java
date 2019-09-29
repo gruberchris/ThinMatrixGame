@@ -5,23 +5,43 @@ import com.chrisgruber.thinmatrixgame.engine.entities.Entity;
 import com.chrisgruber.thinmatrixgame.engine.entities.Light;
 import com.chrisgruber.thinmatrixgame.engine.models.TexturedModel;
 import com.chrisgruber.thinmatrixgame.engine.shaders.StaticShader;
+import com.chrisgruber.thinmatrixgame.engine.shaders.TerrainShader;
+import com.chrisgruber.thinmatrixgame.engine.terrains.Terrain;
+import org.joml.Matrix4f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+
 public class MasterRenderer {
+    private static final float FOV = 70;
+    private static final float NEAR_PLANE = 0.1f;
+    private static final float FAR_PLANE = 1000;
+
     private StaticShader staticShader;
-    private Renderer renderer;
+    private EntityRenderer entityRenderer;
     private Map<TexturedModel, List<Entity>> entities;
+    private Matrix4f projectionMatrix;
+    private TerrainRenderer terrainRenderer;
+    private TerrainShader terrainShader;
+    private List<Terrain> terrainList;
 
     public MasterRenderer() {
-        staticShader = new StaticShader();
-        staticShader.create();
+        // don't texture surfaces with normal vectors facing away from the "camera". don't render back faces of the a model
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
 
-        renderer = new Renderer(staticShader);
+        staticShader = new StaticShader();
+        terrainShader = new TerrainShader();
         entities = new HashMap<>();
+        createProjectionMatrix();
+        entityRenderer = new EntityRenderer(staticShader, projectionMatrix);
+        terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+        terrainList = new ArrayList<>();
     }
 
     public void processEntity(Entity entity) {
@@ -39,16 +59,48 @@ public class MasterRenderer {
     }
 
     public void render(Light light, Camera camera) {
-        renderer.prepare();
+        prepare();
         staticShader.bind();
         staticShader.loadDiffuseLight(light);
         staticShader.loadViewMatrix(camera);
-        renderer.render(entities);
+        entityRenderer.render(entities);
         staticShader.unbind();
+        terrainShader.bind();
+        terrainShader.loadDiffuseLight(light);
+        terrainShader.loadViewMatrix(camera);
+        terrainRenderer.render(terrainList);
+        terrainShader.unbind();
         entities.clear();
+        terrainList.clear();
+    }
+
+    public void processTerrain(Terrain terrain) {
+        terrainList.add(terrain);
     }
 
     public void destory() {
         staticShader.destroy();
+        terrainShader.destroy();
+    }
+
+    private void prepare() {
+        glEnable(GL_DEPTH_TEST);    // test which triangles are in front and render them in the correct order
+        glClearColor(.95f, .9f, .67f, 1);      // Load selected color into the color buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // Clear screen and draw with color in color buffer
+    }
+
+    private void createProjectionMatrix() {
+        float aspectRatio = (float) DisplayManager.getWindowWidth() / (float) DisplayManager.getWindowHeight();
+        float yScale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
+        float xScale = yScale / aspectRatio;
+        float frustum_length = FAR_PLANE - NEAR_PLANE;
+
+        projectionMatrix = new Matrix4f();
+        projectionMatrix.m00(xScale);
+        projectionMatrix.m11(yScale);
+        projectionMatrix.m22(-((FAR_PLANE + NEAR_PLANE) / frustum_length));
+        projectionMatrix.m23(-1);
+        projectionMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustum_length));
+        projectionMatrix.m33(0);
     }
 }
