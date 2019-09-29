@@ -42,6 +42,9 @@ public class Game implements Runnable {
         // Tree entity
         TexturedModel treeModel = new TexturedModel(ObjLoader.loadObjModel("resources/tree.obj", modelLoader), new ModelTexture(modelLoader.loadTexture("resources/tree.png")));
 
+        // Low poly tree entity
+        TexturedModel lowPolyTreeModel = new TexturedModel(ObjLoader.loadObjModel("resources/lowPolyTree.obj", modelLoader), new ModelTexture(modelLoader.loadTexture("resources/lowPolyTree.png")));
+
         // Grass entity
         TexturedModel grassModel = new TexturedModel(ObjLoader.loadObjModel("resources/grassModel.obj", modelLoader), new ModelTexture(modelLoader.loadTexture("resources/grassTexture.png")));
         grassModel.getModelTexture().setHasTransparency(true);
@@ -61,6 +64,7 @@ public class Game implements Runnable {
 
         for (int i = 0; i < 500; i++) {
             entityList.add(new Entity(treeModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 5));
+            entityList.add(new Entity(lowPolyTreeModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));
             entityList.add(new Entity(grassModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));
             entityList.add(new Entity(fernModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 0.6f));
         }
