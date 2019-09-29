@@ -31,10 +31,7 @@ public class MasterRenderer {
     private List<Terrain> terrainList;
 
     public MasterRenderer() {
-        // don't texture surfaces with normal vectors facing away from the "camera". don't render back faces of the a model
-        glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
-
+        enableCulling();
         staticShader = new StaticShader();
         terrainShader = new TerrainShader();
         entities = new HashMap<>();
@@ -42,6 +39,16 @@ public class MasterRenderer {
         entityRenderer = new EntityRenderer(staticShader, projectionMatrix);
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
         terrainList = new ArrayList<>();
+    }
+
+    public static void enableCulling() {
+        // don't texture surfaces with normal vectors facing away from the "camera". don't render back faces of the a model
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+    }
+
+    public static void disableCulling() {
+        glDisable(GL_CULL_FACE);
     }
 
     public void processEntity(Entity entity) {

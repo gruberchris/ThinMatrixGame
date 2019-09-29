@@ -29,5 +29,11 @@ void main(void) {
     float dampedFactor = pow(specularFactor, shineDamper);  // raise specularFactor to the power of the shineDamper value. makes the low specular values even lower but doesnt effect the high specular values too much
     vec3 finalSpecular = dampedFactor * reflectivity * lightColor;
 
-    out_Color = vec4(diffuse, 1.0) *  texture(modelTexture, pass_textureCoords) + vec4(finalSpecular, 1.0);        // returns color of the pixel from the texture at specified texture coordinates
+    vec4 textureColor = texture(modelTexture, pass_textureCoords);
+
+    if (textureColor.a <0.5) {
+        discard;
+    }
+
+    out_Color = vec4(diffuse, 1.0) *  textureColor + vec4(finalSpecular, 1.0);        // returns color of the pixel from the texture at specified texture coordinates
 }

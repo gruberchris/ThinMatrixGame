@@ -16,6 +16,7 @@ public class StaticShader extends ShaderProgramBase {
     private int location_lightColor;
     private int location_shineDamper;
     private int location_reflectivity;
+    private int location_useFakeLighting;
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -37,6 +38,7 @@ public class StaticShader extends ShaderProgramBase {
         location_lightColor = super.getUniformLocation("lightColor");
         location_shineDamper = super.getUniformLocation("shineDamper");
         location_reflectivity = super.getUniformLocation("reflectivity");
+        location_useFakeLighting = super.getUniformLocation("useFakeLighting");
     }
 
     public void loadTransformationMatrix(Matrix4f matrix) {
@@ -60,5 +62,9 @@ public class StaticShader extends ShaderProgramBase {
     public void loadSpecularLight(float shineDamper, float reflectivity) {
         super.loadFloat(location_shineDamper, shineDamper);
         super.loadFloat(location_reflectivity, reflectivity);
+    }
+
+    public void loadFakeLighting(boolean useFakeLighting) {
+        super.loadBoolean(location_useFakeLighting, useFakeLighting);
     }
 }

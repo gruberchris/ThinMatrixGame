@@ -4,6 +4,10 @@ public class ModelTexture {
     private int textureId;
     private float shineDamper;
     private float reflectivity;
+    private boolean hasTransparency;
+
+    // some models, like the grass model, needs fake lighting to look better as the model is a quad with normals facing in many different directions
+    private boolean useFakeLighting;
 
     public ModelTexture(int textureId) {
         this.textureId = textureId;
@@ -28,5 +32,21 @@ public class ModelTexture {
 
     public void setReflectivity(float reflectivity) {
         this.reflectivity = reflectivity;
+    }
+
+    public boolean isHasTransparency() {
+        return hasTransparency;
+    }
+
+    public void setHasTransparency(boolean hasTransparency) {
+        this.hasTransparency = hasTransparency;
+    }
+
+    public boolean isUseFakeLighting() {
+        return useFakeLighting;
+    }
+
+    public void setUseFakeLighting(boolean useFakeLighting) {
+        this.useFakeLighting = useFakeLighting;
     }
 }

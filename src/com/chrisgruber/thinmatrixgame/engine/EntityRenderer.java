@@ -56,6 +56,12 @@ public class EntityRenderer {
         glEnableVertexAttribArray(2);   // VAO 2 = normals
 
         ModelTexture texture = texturedModel.getModelTexture();
+
+        if (texture.isHasTransparency()) {
+            MasterRenderer.disableCulling();
+        }
+
+        staticShader.loadFakeLighting(texture.isUseFakeLighting());
         staticShader.loadSpecularLight(texture.getShineDamper(), texture.getReflectivity());
         glActiveTexture(GL_TEXTURE0);
         int textureId = texturedModel.getModelTexture().getTextureId();
@@ -63,6 +69,7 @@ public class EntityRenderer {
     }
 
     private void unbindTexturedModel() {
+        MasterRenderer.enableCulling(); // make sure culling is enabled for the next model that renders
         glDisableVertexAttribArray(0);  // VAO 0 = vertex spacial coordinates
         glDisableVertexAttribArray(1);  // VAO 1 = texture coordinates
         glDisableVertexAttribArray(2);  // VAO 2 = normals
