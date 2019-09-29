@@ -4,6 +4,7 @@ import com.chrisgruber.thinmatrixgame.engine.entities.Camera;
 import com.chrisgruber.thinmatrixgame.engine.entities.Light;
 import com.chrisgruber.thinmatrixgame.engine.utils.Maths;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 public class StaticShader extends ShaderProgramBase {
     private static final String VERTEX_FILE = "resources/shaders/vertexShader.glsl";
@@ -17,6 +18,7 @@ public class StaticShader extends ShaderProgramBase {
     private int location_shineDamper;
     private int location_reflectivity;
     private int location_useFakeLighting;
+    private int location_skyColor;
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -39,6 +41,7 @@ public class StaticShader extends ShaderProgramBase {
         location_shineDamper = super.getUniformLocation("shineDamper");
         location_reflectivity = super.getUniformLocation("reflectivity");
         location_useFakeLighting = super.getUniformLocation("useFakeLighting");
+        location_skyColor = super.getUniformLocation("skyColor");
     }
 
     public void loadTransformationMatrix(Matrix4f matrix) {
@@ -66,5 +69,9 @@ public class StaticShader extends ShaderProgramBase {
 
     public void loadFakeLighting(boolean useFakeLighting) {
         super.loadBoolean(location_useFakeLighting, useFakeLighting);
+    }
+
+    public void loadSkyColor(float r, float g, float b) {
+        super.loadVector(location_skyColor, new Vector3f(r, g, b));
     }
 }

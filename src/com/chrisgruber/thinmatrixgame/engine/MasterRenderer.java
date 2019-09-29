@@ -21,6 +21,9 @@ public class MasterRenderer {
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000;
+    private static final float SKY_RED = 0.95f;
+    private static final float SKY_GREEN = 0.9f;
+    private static final float SKY_BLUE = 0.67f;
 
     private StaticShader staticShader;
     private EntityRenderer entityRenderer;
@@ -68,11 +71,13 @@ public class MasterRenderer {
     public void render(Light light, Camera camera) {
         prepare();
         staticShader.bind();
+        staticShader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
         staticShader.loadDiffuseLight(light);
         staticShader.loadViewMatrix(camera);
         entityRenderer.render(entities);
         staticShader.unbind();
         terrainShader.bind();
+        terrainShader.loadSkyColor(SKY_RED, SKY_GREEN, SKY_BLUE);
         terrainShader.loadDiffuseLight(light);
         terrainShader.loadViewMatrix(camera);
         terrainRenderer.render(terrainList);
@@ -92,7 +97,7 @@ public class MasterRenderer {
 
     private void prepare() {
         glEnable(GL_DEPTH_TEST);    // test which triangles are in front and render them in the correct order
-        glClearColor(.95f, .9f, .67f, 1);      // Load selected color into the color buffer
+        glClearColor(SKY_RED, SKY_GREEN, SKY_BLUE, 1);      // Load selected color into the color buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // Clear screen and draw with color in color buffer
     }
 

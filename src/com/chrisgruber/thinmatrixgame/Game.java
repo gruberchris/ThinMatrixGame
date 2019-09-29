@@ -73,7 +73,7 @@ public class Game implements Runnable {
         Camera camera = new Camera(0, 5, 0);
         MasterRenderer masterRenderer = new MasterRenderer();
 
-        while(DisplayManager.shouldDisplayClose()) {
+        while (DisplayManager.shouldDisplayClose()) {
             // move the entity and rotate each frame
             // entity.increasePosition(0, 0, -0.1f);
             stallEntity.increaseRotation(0, 1, 0);

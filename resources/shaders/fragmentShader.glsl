@@ -4,6 +4,7 @@ in vec2 pass_textureCoords;
 in vec3 surfaceNormal;
 in vec3 toLightVector;
 in vec3 toCameraVector;
+in float visibility;
 
 out vec4 out_Color;
 
@@ -11,6 +12,7 @@ uniform sampler2D modelTexture;
 uniform vec3 lightColor;
 uniform float shineDamper;
 uniform float reflectivity;
+uniform vec3 skyColor;
 
 void main(void) {
     vec3 unitNormal = normalize(surfaceNormal); // normalize makes the size of the vector = 1. Only direction of the vector matters here. Size is irrelevant
@@ -36,4 +38,5 @@ void main(void) {
     }
 
     out_Color = vec4(diffuse, 1.0) *  textureColor + vec4(finalSpecular, 1.0);        // returns color of the pixel from the texture at specified texture coordinates
+    out_Color = mix(vec4(skyColor, 1.0), out_Color, visibility);
 }
