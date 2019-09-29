@@ -6,8 +6,11 @@ import com.chrisgruber.thinmatrixgame.engine.models.TexturedModel;
 import com.chrisgruber.thinmatrixgame.engine.shaders.StaticShader;
 import com.chrisgruber.thinmatrixgame.engine.textures.ModelTexture;
 import com.chrisgruber.thinmatrixgame.engine.utils.Maths;
-import org.joml.Matrix4f;
 
+import java.util.List;
+import java.util.Map;
+
+import org.joml.Matrix4f;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
@@ -18,14 +21,14 @@ public class Renderer {
     private static final float FAR_PLANE = 1000;
 
     private Matrix4f projectionMatrix;
+    private StaticShader staticShader;
 
     public Renderer(StaticShader staticShader) {
+        this.staticShader = staticShader;
         // don't texture surfaces with normal vectors facing away from the "camera". don't render back faces of the a model
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
-
         createProjectionMatrix();
-        staticShader.create();
         staticShader.bind();
         staticShader.loadProjectionMatrix(projectionMatrix);
         staticShader.unbind();
@@ -37,52 +40,45 @@ public class Renderer {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);     // Clear screen and draw with color in color buffer
     }
 
-    public void render(RawModel rawModel) {
-        glBindVertexArray(rawModel.getVaoId());
-        glEnableVertexAttribArray(0);   // TODO: need an ENUM to define VAO attributes I am using
-        glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, 0);    // Draw using index buffer and triangles
-        glDisableVertexAttribArray(0);  // TODO: need an ENUM to define VAO attributes I am using
-        glBindVertexArray(0);                                   // Unbind the VAO
+    public void render(Map<TexturedModel, List<Entity>> entities) {
+        for (TexturedModel texturedModel : entities.keySet()) {
+            prepareTexturedModel(texturedModel);
+            List<Entity> entityList = entities.get(texturedModel);
+
+            for (Entity entity : entityList) {
+                prepareEntity(entity);
+                glDrawElements(GL_TRIANGLES, texturedModel.getRawModel().getVertexCount(), GL_UNSIGNED_INT, 0);    // Draw using index buffer and triangles
+            }
+
+            unbindTexturedModel();
+        }
     }
 
-    public void render(TexturedModel texturedModel) {
+    private void prepareTexturedModel(TexturedModel texturedModel) {
         RawModel rawModel = texturedModel.getRawModel();
-        int textureId = texturedModel.getModelTexture().getTextureId();
-
-        glBindVertexArray(rawModel.getVaoId());
-        glEnableVertexAttribArray(0);   // VAO 0 = vertex spacial coordinates
-        glEnableVertexAttribArray(1);   // VAO 1 = texture coordinates
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textureId);    // sampler2D in fragment shader  uses texture bank 0 by default
-        glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, 0);    // Draw using index buffer and triangles
-        glDisableVertexAttribArray(0);  // VAO 0 = vertex spacial coordinates
-        glDisableVertexAttribArray(1);  // VAO 1 = texture coordinates
-        glDisableVertexAttribArray(2);  // VAO 2 = normals
-        glBindVertexArray(0);   // Unbind the VAO
-    }
-
-    public void render(Entity entity, StaticShader staticShader) {
-        TexturedModel texturedModel = entity.getTexturedModel();
-        RawModel rawModel = texturedModel.getRawModel();
-        int textureId = texturedModel.getModelTexture().getTextureId();
 
         glBindVertexArray(rawModel.getVaoId());
         glEnableVertexAttribArray(0);   // VAO 0 = vertex spacial coordinates
         glEnableVertexAttribArray(1);   // VAO 1 = texture coordinates
         glEnableVertexAttribArray(2);   // VAO 2 = normals
 
-        Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotationX(), entity.getRotationY(), entity.getRotationZ(), entity.getScale());
-        staticShader.loadTransformationMatrix(transformationMatrix);
-
         ModelTexture texture = texturedModel.getModelTexture();
         staticShader.loadSpecularLight(texture.getShineDamper(), texture.getReflectivity());
         glActiveTexture(GL_TEXTURE0);
+        int textureId = texturedModel.getModelTexture().getTextureId();
         glBindTexture(GL_TEXTURE_2D, textureId);    // sampler2D in fragment shader  uses texture bank 0 by default
-        glDrawElements(GL_TRIANGLES, rawModel.getVertexCount(), GL_UNSIGNED_INT, 0);    // Draw using index buffer and triangles
+    }
+
+    private void unbindTexturedModel() {
         glDisableVertexAttribArray(0);  // VAO 0 = vertex spacial coordinates
         glDisableVertexAttribArray(1);  // VAO 1 = texture coordinates
         glDisableVertexAttribArray(2);  // VAO 2 = normals
         glBindVertexArray(0);   // Unbind the VAO
+    }
+
+    private void prepareEntity(Entity entity) {
+        Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotationX(), entity.getRotationY(), entity.getRotationZ(), entity.getScale());
+        staticShader.loadTransformationMatrix(transformationMatrix);
     }
 
     private void createProjectionMatrix() {
