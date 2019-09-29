@@ -8,6 +8,8 @@ import com.chrisgruber.thinmatrixgame.engine.models.RawModel;
 import com.chrisgruber.thinmatrixgame.engine.models.TexturedModel;
 import com.chrisgruber.thinmatrixgame.engine.terrains.Terrain;
 import com.chrisgruber.thinmatrixgame.engine.textures.ModelTexture;
+import com.chrisgruber.thinmatrixgame.engine.textures.TerrainTexture;
+import com.chrisgruber.thinmatrixgame.engine.textures.TerrainTexturePack;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -54,15 +56,24 @@ public class Game implements Runnable {
         TexturedModel fernModel = new TexturedModel(ObjLoader.loadObjModel("resources/fern.obj", modelLoader), new ModelTexture(modelLoader.loadTexture("resources/fern.png")));
         fernModel.getModelTexture().setHasTransparency(true);
 
+        // Multitextured Terrain
+        TerrainTexture backgroundTexture = new TerrainTexture(modelLoader.loadTexture("resources/grassy2.png"));
+        TerrainTexture rTexture = new TerrainTexture(modelLoader.loadTexture("resources/mud.png"));
+        TerrainTexture gTexture = new TerrainTexture(modelLoader.loadTexture("resources/grassFlowers.png"));
+        TerrainTexture bTexture = new TerrainTexture(modelLoader.loadTexture("resources/path.png"));
+        TerrainTexture blendMap = new TerrainTexture(modelLoader.loadTexture("resources/blendMap.png"));
+
+        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
+
         // Terrain entityList
-        Terrain terrain = new Terrain(0,0, modelLoader, new ModelTexture(modelLoader.loadTexture("resources/grass.png")));
-        Terrain terrain2 = new Terrain(1,0, modelLoader, new ModelTexture(modelLoader.loadTexture("resources/grass.png")));
+        Terrain terrain = new Terrain(0, 0, modelLoader, terrainTexturePack, blendMap);
+        Terrain terrain2 = new Terrain(1, 0, modelLoader, terrainTexturePack, blendMap);
 
         List<Entity> entityList = new ArrayList<>();
 
         Random random = new Random();
 
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 300; i++) {
             entityList.add(new Entity(treeModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 5));
             entityList.add(new Entity(lowPolyTreeModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));
             entityList.add(new Entity(grassModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));

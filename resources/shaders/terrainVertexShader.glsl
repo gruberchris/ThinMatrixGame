@@ -22,7 +22,7 @@ void main(void) {
     vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
     vec4 positionRelativeToCamera = viewMatrix * worldPosition;
     gl_Position = projectionMatrix * positionRelativeToCamera;
-    pass_textureCoords = textureCoords * 40.0;
+    pass_textureCoords = textureCoords;
 
     surfaceNormal = (transformationMatrix * vec4(normal, 0.0)).xyz; // swizzle it! get the xyz components from the resulting 4d vector
     toLightVector = lightPosition - worldPosition.xyz;  // world position is a 4d vector. again, use a swizzle to get a 3d vector from it

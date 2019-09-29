@@ -2,7 +2,8 @@ package com.chrisgruber.thinmatrixgame.engine.terrains;
 
 import com.chrisgruber.thinmatrixgame.engine.ModelLoader;
 import com.chrisgruber.thinmatrixgame.engine.models.RawModel;
-import com.chrisgruber.thinmatrixgame.engine.textures.ModelTexture;
+import com.chrisgruber.thinmatrixgame.engine.textures.TerrainTexture;
+import com.chrisgruber.thinmatrixgame.engine.textures.TerrainTexturePack;
 
 public class Terrain {
     private static final float SIZE = 800;
@@ -11,13 +12,15 @@ public class Terrain {
     private float x;
     private float z;
     private RawModel rawModel;
-    private ModelTexture modelTexture;
+    private TerrainTexturePack terrainTexturePack;
+    private TerrainTexture blendMap;
 
-    public Terrain(int x, int z, ModelLoader modelLoader, ModelTexture modelTexture) {
+    public Terrain(int x, int z, ModelLoader modelLoader, TerrainTexturePack terrainTexturePack, TerrainTexture blendMap) {
         this.x = x * SIZE;
         this.z = z * SIZE;
-        this.modelTexture = modelTexture;
         this.rawModel = generateTerrain(modelLoader);
+        this.terrainTexturePack = terrainTexturePack;
+        this.blendMap = blendMap;
     }
 
     public float getX() {
@@ -32,8 +35,12 @@ public class Terrain {
         return rawModel;
     }
 
-    public ModelTexture getModelTexture() {
-        return modelTexture;
+    public TerrainTexturePack getTerrainTexturePack() {
+        return terrainTexturePack;
+    }
+
+    public TerrainTexture getBlendMap() {
+        return blendMap;
     }
 
     private RawModel generateTerrain(ModelLoader modelLoader) {

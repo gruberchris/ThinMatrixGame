@@ -35,8 +35,12 @@ public abstract class ShaderProgramBase {
 
     protected abstract void getAllUniformLocations();
 
-    protected  void loadFloat(int location, float value) {
+    protected void loadFloat(int location, float value) {
         glUniform1f(location, value);
+    }
+
+    protected void loadInt(int location, int value) {
+        glUniform1i(location, value);
     }
 
     protected void loadVector(int location, Vector3f vector) {
