@@ -16,16 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Game implements Runnable {
-    private Thread gameThread;
-
+public class Game {
     public void start() {
-        gameThread = new Thread(this, "GameThread");
-        gameThread.start();
-    }
-
-    @Override
-    public void run() {
         DisplayManager.createDisplay();
         DisplayManager.setShowFPSTitle(true);   // TODO: Debug only
 
