@@ -16,10 +16,8 @@ NOTE: Please notice that I have mostly made commits for each of the episodes in 
 * A is turn left
 * D is turn right
 * SPACE BAR is jump
-* PAGE UP is pitch camera upwards
-* PAGE DOWN is pitch camera downwards
 
-Keyboard arrow keys also work for movement.
+Keyboard arrow keys also work for movement. Mouse input is buggy. Good luck!
 
 ## Dependencies
  * LWJGL 3

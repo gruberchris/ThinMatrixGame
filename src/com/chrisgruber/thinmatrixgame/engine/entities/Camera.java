@@ -1,6 +1,6 @@
 package com.chrisgruber.thinmatrixgame.engine.entities;
 
-import com.chrisgruber.thinmatrixgame.engine.io.Keyboard;
+import com.chrisgruber.thinmatrixgame.engine.io.Mouse;
 import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -10,28 +10,26 @@ public class Camera {
     private float pitch;
     private float yaw;
     private float roll;
+    private Player player;
+    private float distanceFromPlayer;
+    private float angleAroundPLayer;
 
-    public Camera() {
+    public Camera(Player player) {
+        this.player = player;
         position = new Vector3f(0, 0,0);
-    }
-
-    public Camera(int x, int y, int z) {
-        position = new Vector3f(x, y, z);
-    }
-
-    public Camera(int x, int y, int z, float pitch, float yaw, float roll) {
-        position = new Vector3f(x, y, z);
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.roll = roll;
+        distanceFromPlayer = 50;
+        pitch = 20;
     }
 
     public void move() {
-        if (Keyboard.isKeyDown(GLFW_KEY_PAGE_UP)) {
-            pitch -= 1;
-        } else if (Keyboard.isKeyDown(GLFW_KEY_PAGE_DOWN)) {
-            pitch += 1;
-        }
+        calculateZoom();
+        calculatePitch();
+        calculateAngleAroundPlayer();
+
+        float horizontalDistance = calculateHorizontalDistance();
+        float verticalDistance = calculateVerticalDistance();
+        calculateCameraPosition(horizontalDistance, verticalDistance);
+        yaw = 180 - (player.getRotationY() + angleAroundPLayer);
     }
 
     public Vector3f getPosition() {
@@ -72,5 +70,44 @@ public class Camera {
 
     public void setRoll(float roll) {
         this.roll = roll;
+    }
+
+    private void calculateZoom() {
+        // TODO: zoom velocity doesn't stop until player applies equal opposite zoom out input
+        float zoomLevel = (float) Mouse.getMouseScrollY() * 0.1f;
+        distanceFromPlayer -= zoomLevel;
+    }
+
+    private void calculatePitch() {
+        // TODO: pitching adjustments don't stop until the mouse button is released!
+        if (Mouse.isButtonDown(GLFW_MOUSE_BUTTON_RIGHT)) {
+            float pitchChange = (float) Mouse.getMouseY() * 0.1f;
+            pitch -= pitchChange;
+        }
+    }
+
+    private void calculateAngleAroundPlayer() {
+        // TODO: angleAroundPLayer adjustments don't stop until the mouse button is released!
+        if (Mouse.isButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
+            float angleChange = (float) Mouse.getMouseX() * 0.3f;
+            angleAroundPLayer -= angleChange;
+        }
+    }
+
+    private float calculateHorizontalDistance() {
+        return (float) (distanceFromPlayer * Math.cos(Math.toRadians(pitch)));
+    }
+
+    private float calculateVerticalDistance() {
+        return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch)));
+    }
+
+    private void calculateCameraPosition(float horizontalDistanceFromPlayer, float verticalDistanceFromPlayer) {
+        float theta = player.getRotationY() + angleAroundPLayer;
+        float offsetXOfCameraFromPlayer = (float) (horizontalDistanceFromPlayer * Math.sin(Math.toRadians(theta)));
+        float offsetZOfCameraFromPlayer = (float) (horizontalDistanceFromPlayer * Math.cos(Math.toRadians(theta)));
+        position.x = player.getPosition().x - offsetXOfCameraFromPlayer;
+        position.z = player.getPosition().z - offsetZOfCameraFromPlayer;
+        position.y = player.getPosition().y + verticalDistanceFromPlayer;
     }
 }

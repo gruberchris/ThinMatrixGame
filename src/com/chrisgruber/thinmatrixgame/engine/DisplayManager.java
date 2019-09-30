@@ -1,6 +1,7 @@
 package com.chrisgruber.thinmatrixgame.engine;
 
 import com.chrisgruber.thinmatrixgame.engine.io.Keyboard;
+import com.chrisgruber.thinmatrixgame.engine.io.Mouse;
 import org.lwjgl.glfw.GLFWVidMode;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -17,6 +18,8 @@ public class DisplayManager {
     private static boolean showFPSTitle;
     private static double lastFrameTime;
     private static double deltaInSeconds;
+    private static Keyboard keyboard;
+    private static Mouse mouse;
 
     public static void createDisplay() {
         if (!glfwInit()) {
@@ -38,8 +41,14 @@ public class DisplayManager {
         assert vidMode != null;
         glfwSetWindowPos(window, (vidMode.width() - WINDOW_WIDTH) / 2, (vidMode.height() - WINDOW_HEIGHT) / 2);
 
+        keyboard = new Keyboard();
+        mouse = new Mouse();
+
         // register keyboard input callback
-        glfwSetKeyCallback(window, new Keyboard());
+        glfwSetKeyCallback(window, keyboard);
+        glfwSetCursorPosCallback(window, mouse.getMouseMoveCallback());
+        glfwSetMouseButtonCallback(window, mouse.getMouseButtonsCallback());
+        glfwSetScrollCallback(window, mouse.getMouseScrollCallback());
 
         glfwMakeContextCurrent(window);
         createCapabilities();
@@ -71,6 +80,8 @@ public class DisplayManager {
     }
 
     public static void closeDisplay() {
+        mouse.destroy();
+        keyboard.close();
         glfwWindowShouldClose(window);
         glfwDestroyWindow(window);
         glfwTerminate();

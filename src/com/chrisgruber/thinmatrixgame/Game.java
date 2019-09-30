@@ -5,7 +5,6 @@ import com.chrisgruber.thinmatrixgame.engine.entities.Camera;
 import com.chrisgruber.thinmatrixgame.engine.entities.Entity;
 import com.chrisgruber.thinmatrixgame.engine.entities.Light;
 import com.chrisgruber.thinmatrixgame.engine.entities.Player;
-import com.chrisgruber.thinmatrixgame.engine.models.RawModel;
 import com.chrisgruber.thinmatrixgame.engine.models.TexturedModel;
 import com.chrisgruber.thinmatrixgame.engine.terrains.Terrain;
 import com.chrisgruber.thinmatrixgame.engine.textures.ModelTexture;
@@ -74,11 +73,11 @@ public class Game implements Runnable {
         }
 
         Light light = new Light(new Vector3f(3000, 2000, 2000), new Vector3f(1, 1,1));
-        Camera camera = new Camera(0, 20, 0, 10,0,0);
         MasterRenderer masterRenderer = new MasterRenderer();
 
         TexturedModel bunnyModel = new TexturedModel(ObjLoader.loadObjModel("resources/stanfordBunny.obj", modelLoader), new ModelTexture(modelLoader.loadTexture("resources/white.png")));
         Player player = new Player(bunnyModel, new Vector3f(0, 0, -100), 0,0,0,1);
+        Camera camera = new Camera(player);
 
         while (DisplayManager.shouldDisplayClose()) {
             camera.move();
