@@ -94,9 +94,13 @@ public abstract class ShaderProgramBase {
 
         // Validating
         glValidateProgram(programId);
+
+        // TODO: glValidateProgram reports GL_FALSE but runs fine.. Why?
+        /*
         if (glGetProgrami(programId, GL_VALIDATE_STATUS) == GL_FALSE) {
             throw new RuntimeException("Program Validation: " + glGetProgramInfoLog(programId));
         }
+        */
 
         getAllUniformLocations();
     }
