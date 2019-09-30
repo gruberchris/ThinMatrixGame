@@ -4,6 +4,7 @@ import com.chrisgruber.thinmatrixgame.engine.*;
 import com.chrisgruber.thinmatrixgame.engine.entities.Camera;
 import com.chrisgruber.thinmatrixgame.engine.entities.Entity;
 import com.chrisgruber.thinmatrixgame.engine.entities.Light;
+import com.chrisgruber.thinmatrixgame.engine.entities.Player;
 import com.chrisgruber.thinmatrixgame.engine.models.RawModel;
 import com.chrisgruber.thinmatrixgame.engine.models.TexturedModel;
 import com.chrisgruber.thinmatrixgame.engine.terrains.Terrain;
@@ -32,14 +33,6 @@ public class Game implements Runnable {
         System.out.println("OpenGL: " + DisplayManager.getOpenGlVersionMessage());
 
         ModelLoader modelLoader = new ModelLoader();
-
-        // The "stall" entity
-        RawModel model = ObjLoader.loadObjModel("resources/stall.obj", modelLoader);
-        TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(modelLoader.loadTexture("resources/stallTexture.png")));
-        ModelTexture modelTexture = texturedModel.getModelTexture();
-        modelTexture.setShineDamper(10);
-        modelTexture.setReflectivity(1);
-        Entity stallEntity = new Entity(texturedModel, new Vector3f(0, 0, -25), 0, 0, 0, 1);
 
         // Tree entity
         TexturedModel treeModel = new TexturedModel(ObjLoader.loadObjModel("resources/tree.obj", modelLoader), new ModelTexture(modelLoader.loadTexture("resources/tree.png")));
@@ -81,18 +74,19 @@ public class Game implements Runnable {
         }
 
         Light light = new Light(new Vector3f(3000, 2000, 2000), new Vector3f(1, 1,1));
-        Camera camera = new Camera(0, 5, 0);
+        Camera camera = new Camera(0, 20, 0, 10,0,0);
         MasterRenderer masterRenderer = new MasterRenderer();
 
+        TexturedModel bunnyModel = new TexturedModel(ObjLoader.loadObjModel("resources/stanfordBunny.obj", modelLoader), new ModelTexture(modelLoader.loadTexture("resources/white.png")));
+        Player player = new Player(bunnyModel, new Vector3f(0, 0, -100), 0,0,0,1);
+
         while (DisplayManager.shouldDisplayClose()) {
-            // move the entity and rotate each frame
-            // entity.increasePosition(0, 0, -0.1f);
-            stallEntity.increaseRotation(0, 1, 0);
             camera.move();
+            player.move();
 
             masterRenderer.processTerrain(terrain);
             masterRenderer.processTerrain(terrain2);
-            masterRenderer.processEntity(stallEntity);
+            masterRenderer.processEntity(player);
 
             for (Entity entity : entityList) {
                 masterRenderer.processEntity(entity);

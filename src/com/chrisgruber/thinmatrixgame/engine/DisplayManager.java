@@ -15,6 +15,8 @@ public class DisplayManager {
     private static int frames;
     private static long time;
     private static boolean showFPSTitle;
+    private static double lastFrameTime;
+    private static double deltaInSeconds;
 
     public static void createDisplay() {
         if (!glfwInit()) {
@@ -45,6 +47,8 @@ public class DisplayManager {
 
         // Setting the value to 1 should limit to 60 FPS
         glfwSwapInterval(1);
+
+        lastFrameTime = getCurrentTime();
     }
 
     public static void updateDisplay() {
@@ -60,6 +64,10 @@ public class DisplayManager {
                 frames = 0;
             }
         }
+
+        double currentFrameTime = getCurrentTime();
+        deltaInSeconds = (currentFrameTime - lastFrameTime) / 1000;
+        lastFrameTime = currentFrameTime;
     }
 
     public static void closeDisplay() {
@@ -91,5 +99,13 @@ public class DisplayManager {
 
     public static int getWindowHeight() {
         return WINDOW_HEIGHT;
+    }
+
+    public static double getDeltaInSeconds() {
+        return deltaInSeconds;
+    }
+
+    private static double getCurrentTime() {
+        return glfwGetTime() * 1000;
     }
 }

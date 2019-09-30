@@ -27,36 +27,10 @@ public class Camera {
     }
 
     public void move() {
-        final float MOVE_RATE = 0.25f;
-
-        if (Keyboard.isKeyDown(GLFW_KEY_W)) {
-            position.z -= MOVE_RATE;
-        }
-
-        if (Keyboard.isKeyDown(GLFW_KEY_S)) {
-            position.z += MOVE_RATE;
-        }
-
-        if (Keyboard.isKeyDown(GLFW_KEY_D)) {
-            position.x += MOVE_RATE;
-        }
-
-        if (Keyboard.isKeyDown(GLFW_KEY_A)) {
-            position.x -= MOVE_RATE;
-        }
-
-        if (Keyboard.isKeyDown(GLFW_KEY_Q)) {
-            position.y += MOVE_RATE;
-        }
-
-        if (Keyboard.isKeyDown(GLFW_KEY_E)) {
-            position.y -= MOVE_RATE;
-        }
-
-        if (Keyboard.isKeyDown(GLFW_KEY_Z)) {
-            position.x = 0;
-            position.y = 0;
-            position.z = 0;
+        if (Keyboard.isKeyDown(GLFW_KEY_PAGE_UP)) {
+            pitch -= 1;
+        } else if (Keyboard.isKeyDown(GLFW_KEY_PAGE_DOWN)) {
+            pitch += 1;
         }
     }
 
