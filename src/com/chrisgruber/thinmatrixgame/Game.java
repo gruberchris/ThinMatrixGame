@@ -51,7 +51,7 @@ public class Game {
 
         // Terrain entityList
         Terrain terrain = new Terrain(0, 0, modelLoader, terrainTexturePack, blendMap, "resources/heightmap.png");
-        Terrain terrain2 = new Terrain(1, 0, modelLoader, terrainTexturePack, blendMap, "resources/heightmap.png");
+        // Terrain terrain2 = new Terrain(1, 0, modelLoader, terrainTexturePack, blendMap, "resources/heightmap.png");
 
         List<Entity> entityList = new ArrayList<>();
 
@@ -76,7 +76,7 @@ public class Game {
             player.move();
 
             masterRenderer.processTerrain(terrain);
-            masterRenderer.processTerrain(terrain2);
+            // masterRenderer.processTerrain(terrain2);
             masterRenderer.processEntity(player);
 
             for (Entity entity : entityList) {
