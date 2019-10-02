@@ -36,6 +36,8 @@ public class Player extends Entity {
         // Calculate jump
         upwardsSpeed += GRAVITY * DisplayManager.getDeltaInSeconds();
         super.increasePosition(0, (float) (upwardsSpeed * DisplayManager.getDeltaInSeconds()), 0);
+
+        // Player terrain collision detection
         if (super.getPosition().y < TERRAIN_HEIGHT) {
             upwardsSpeed = 0;
             super.getPosition().y = TERRAIN_HEIGHT;
