@@ -50,8 +50,8 @@ public class Game {
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
 
         // Terrain entityList
-        Terrain terrain = new Terrain(0, 0, modelLoader, terrainTexturePack, blendMap);
-        Terrain terrain2 = new Terrain(1, 0, modelLoader, terrainTexturePack, blendMap);
+        Terrain terrain = new Terrain(0, 0, modelLoader, terrainTexturePack, blendMap, "resources/heightmap.png");
+        Terrain terrain2 = new Terrain(1, 0, modelLoader, terrainTexturePack, blendMap, "resources/heightmap.png");
 
         List<Entity> entityList = new ArrayList<>();
 
