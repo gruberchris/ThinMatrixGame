@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
-    public void start() {
+    private void start() {
         DisplayManager.createDisplay();
         DisplayManager.setShowFPSTitle(true);   // TODO: Debug only
 
@@ -40,7 +40,7 @@ public class Game {
         TexturedModel fernModel = new TexturedModel(ObjLoader.loadObjModel("resources/fern.obj", modelLoader), new ModelTexture(modelLoader.loadTexture("resources/fern.png")));
         fernModel.getModelTexture().setHasTransparency(true);
 
-        // Multitextured Terrain
+        // Multi-textured Terrain
         TerrainTexture backgroundTexture = new TerrainTexture(modelLoader.loadTexture("resources/grassy2.png"));
         TerrainTexture rTexture = new TerrainTexture(modelLoader.loadTexture("resources/mud.png"));
         TerrainTexture gTexture = new TerrainTexture(modelLoader.loadTexture("resources/grassFlowers.png"));
@@ -50,34 +50,49 @@ public class Game {
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
 
         // Terrain entityList
-        Terrain terrain = new Terrain(0, 0, modelLoader, terrainTexturePack, blendMap, "resources/heightmap.png");
-        // Terrain terrain2 = new Terrain(1, 0, modelLoader, terrainTexturePack, blendMap, "resources/heightmap.png");
+        Terrain terrain = new Terrain(0, -1, modelLoader, terrainTexturePack, blendMap, "resources/heightmap.png");
+        Terrain terrain2 = new Terrain(-1, -1, modelLoader, terrainTexturePack, blendMap, "resources/heightmap.png");
 
         List<Entity> entityList = new ArrayList<>();
 
         Random random = new Random();
 
-        for (int i = 0; i < 300; i++) {
-            entityList.add(new Entity(treeModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 5));
-            entityList.add(new Entity(lowPolyTreeModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));
-            entityList.add(new Entity(grassModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));
-            entityList.add(new Entity(fernModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 0.6f));
+        for (int i = 0; i < 400; i++) {
+            float x = random.nextFloat() * 800 - 400;
+            float z = random.nextFloat() * -600;
+            float y = terrain.getHeightOfTerrain(x, z);
+
+            if (i % 20 == 0) {
+                entityList.add(new Entity(lowPolyTreeModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 1));
+            }
+
+            x = random.nextFloat() * 800 - 400;
+            z = random.nextFloat() * -600;
+            y = terrain.getHeightOfTerrain(x, z);
+
+            if (i % 20 == 0) {
+                entityList.add(new Entity(fernModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.9f));
+            }
+
+            if (i % 5 == 0) {
+                entityList.add(new Entity(grassModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 1));
+            }
         }
 
         Light light = new Light(new Vector3f(3000, 2000, 2000), new Vector3f(1, 1,1));
         MasterRenderer masterRenderer = new MasterRenderer();
 
         TexturedModel bunnyModel = new TexturedModel(ObjLoader.loadObjModel("resources/stanfordBunny.obj", modelLoader), new ModelTexture(modelLoader.loadTexture("resources/white.png")));
-        Player player = new Player(bunnyModel, new Vector3f(0, 0, -100), 0,0,0,1);
+        Player player = new Player(bunnyModel, new Vector3f(0, 0, 0), 0,0,0,0.6f);
         Camera camera = new Camera(player);
 
         while (DisplayManager.shouldDisplayClose()) {
+            player.move(terrain);   // to do this with multiple Terrain, need to test first to know which Terrain the player's position is in
             camera.move();
-            player.move();
 
-            masterRenderer.processTerrain(terrain);
-            // masterRenderer.processTerrain(terrain2);
             masterRenderer.processEntity(player);
+            masterRenderer.processTerrain(terrain);
+            masterRenderer.processTerrain(terrain2);
 
             for (Entity entity : entityList) {
                 masterRenderer.processEntity(entity);

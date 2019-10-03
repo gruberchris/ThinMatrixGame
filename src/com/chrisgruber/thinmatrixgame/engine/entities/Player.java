@@ -3,6 +3,7 @@ package com.chrisgruber.thinmatrixgame.engine.entities;
 import com.chrisgruber.thinmatrixgame.engine.DisplayManager;
 import com.chrisgruber.thinmatrixgame.engine.io.Keyboard;
 import com.chrisgruber.thinmatrixgame.engine.models.TexturedModel;
+import com.chrisgruber.thinmatrixgame.engine.terrains.Terrain;
 import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -12,7 +13,6 @@ public class Player extends Entity {
     private static final float TURN_SPEED = 160;    // degrees per second
     private static final float GRAVITY = -50;
     private static final float JUMP_POWER = 30;
-    private static final float TERRAIN_HEIGHT = 0;  // assumes 100% flat terrain
 
     private Vector3f position;
     private float currentSpeed;
@@ -23,7 +23,7 @@ public class Player extends Entity {
         super(texturedModel, position, rotationX, rotationY, rotationZ, scale);
     }
 
-    public void move() {
+    public void move(Terrain terrain) {
         checkInputs();
 
         // Calculate movement
@@ -38,9 +38,10 @@ public class Player extends Entity {
         super.increasePosition(0, (float) (upwardsSpeed * DisplayManager.getDeltaInSeconds()), 0);
 
         // Player terrain collision detection
-        if (super.getPosition().y < TERRAIN_HEIGHT) {
+        float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z);
+        if (super.getPosition().y < terrainHeight) {
             upwardsSpeed = 0;
-            super.getPosition().y = TERRAIN_HEIGHT;
+            super.getPosition().y = terrainHeight;
         }
     }
 
