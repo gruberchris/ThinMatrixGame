@@ -5,6 +5,7 @@ public class ModelTexture {
     private float shineDamper;
     private float reflectivity;
     private boolean hasTransparency;
+    private int numberOfRowsInTextureAtlas;
 
     // some models, like the grass model, needs fake lighting to look better as the model is a quad with normals facing in many different directions
     private boolean useFakeLighting;
@@ -12,6 +13,7 @@ public class ModelTexture {
     public ModelTexture(int textureId) {
         this.textureId = textureId;
         shineDamper = 1;
+        numberOfRowsInTextureAtlas = 1;
     }
 
     public int getTextureId() {
@@ -48,5 +50,13 @@ public class ModelTexture {
 
     public void setUseFakeLighting(boolean useFakeLighting) {
         this.useFakeLighting = useFakeLighting;
+    }
+
+    public int getNumberOfRowsInTextureAtlas() {
+        return numberOfRowsInTextureAtlas;
+    }
+
+    public void setNumberOfRowsInTextureAtlas(int numberOfRowsInTextureAtlas) {
+        this.numberOfRowsInTextureAtlas = numberOfRowsInTextureAtlas;
     }
 }

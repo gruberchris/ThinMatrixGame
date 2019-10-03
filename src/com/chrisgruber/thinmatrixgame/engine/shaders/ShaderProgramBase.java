@@ -2,6 +2,7 @@ package com.chrisgruber.thinmatrixgame.engine.shaders;
 
 import com.chrisgruber.thinmatrixgame.engine.utils.FileUtils;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 
@@ -45,6 +46,10 @@ public abstract class ShaderProgramBase {
 
     protected void loadVector(int location, Vector3f vector) {
         glUniform3f(location, vector.x, vector.y, vector.z);
+    }
+
+    protected void loadVector(int location, Vector2f vector) {
+        glUniform2f(location, vector.x, vector.y );
     }
 
     protected void loadBoolean(int location, boolean value) {

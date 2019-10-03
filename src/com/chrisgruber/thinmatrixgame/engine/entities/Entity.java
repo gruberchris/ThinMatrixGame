@@ -8,6 +8,7 @@ public class Entity {
     private Vector3f position;
     private float rotationX, rotationY, rotationZ;
     private float scale;
+    private int textureAtlasIndex;
 
     public Entity(TexturedModel texturedModel, Vector3f position, float rotationX, float rotationY, float rotationZ, float scale) {
         this.texturedModel = texturedModel;
@@ -16,6 +17,16 @@ public class Entity {
         this.rotationY = rotationY;
         this.rotationZ = rotationZ;
         this.scale = scale;
+    }
+
+    public Entity(TexturedModel texturedModel, int textureAtlasIndex, Vector3f position, float rotationX, float rotationY, float rotationZ, float scale) {
+        this.texturedModel = texturedModel;
+        this.position = position;
+        this.rotationX = rotationX;
+        this.rotationY = rotationY;
+        this.rotationZ = rotationZ;
+        this.scale = scale;
+        this.textureAtlasIndex = textureAtlasIndex;
     }
 
     public void increasePosition(float dx, float dy, float dz) {
@@ -28,6 +39,16 @@ public class Entity {
         this.rotationX += dx;
         this.rotationY += dy;
         this.rotationZ += dz;
+    }
+
+    public float getTextureAtlasXOffset() {
+        int column = textureAtlasIndex % texturedModel.getModelTexture().getNumberOfRowsInTextureAtlas();
+        return (float) column / (float) texturedModel.getModelTexture().getNumberOfRowsInTextureAtlas();
+    }
+
+    public float getTextureAtlasYOffset() {
+        int row = textureAtlasIndex / texturedModel.getModelTexture().getNumberOfRowsInTextureAtlas();
+        return (float) row / (float) texturedModel.getModelTexture().getNumberOfRowsInTextureAtlas();
     }
 
     public TexturedModel getTexturedModel() {

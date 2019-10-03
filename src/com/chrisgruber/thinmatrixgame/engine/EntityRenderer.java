@@ -57,6 +57,8 @@ public class EntityRenderer {
 
         ModelTexture texture = texturedModel.getModelTexture();
 
+        staticShader.loadNumberOfRowsInTextureAtlas(texture.getNumberOfRowsInTextureAtlas());
+
         if (texture.isHasTransparency()) {
             MasterRenderer.disableCulling();
         }
@@ -79,5 +81,6 @@ public class EntityRenderer {
     private void prepareEntity(Entity entity) {
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotationX(), entity.getRotationY(), entity.getRotationZ(), entity.getScale());
         staticShader.loadTransformationMatrix(transformationMatrix);
+        staticShader.loadOffset(entity.getTextureAtlasXOffset(), entity.getTextureAtlasYOffset());
     }
 }

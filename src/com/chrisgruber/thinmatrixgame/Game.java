@@ -37,7 +37,9 @@ public class Game {
         grassModel.getModelTexture().setUseFakeLighting(true);
 
         // Fern entity
-        TexturedModel fernModel = new TexturedModel(ObjLoader.loadObjModel("resources/fern.obj", modelLoader), new ModelTexture(modelLoader.loadTexture("resources/fern.png")));
+        ModelTexture fernTextureAtlas = new ModelTexture(modelLoader.loadTexture("resources/fern.png"));
+        fernTextureAtlas.setNumberOfRowsInTextureAtlas(2);
+        TexturedModel fernModel = new TexturedModel(ObjLoader.loadObjModel("resources/fern.obj", modelLoader), fernTextureAtlas);
         fernModel.getModelTexture().setHasTransparency(true);
 
         // Multi-textured Terrain
@@ -71,7 +73,16 @@ public class Game {
             y = terrain.getHeightOfTerrain(x, z);
 
             if (i % 20 == 0) {
-                entityList.add(new Entity(fernModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.9f));
+                entityList.add(new Entity(treeModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 5));
+            }
+
+            x = random.nextFloat() * 800 - 400;
+            z = random.nextFloat() * -600;
+            y = terrain.getHeightOfTerrain(x, z);
+
+            if (i % 10 == 0) {
+                // assigns a random texture for each fern from its texture atlas
+                entityList.add(new Entity(fernModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.9f));
             }
 
             if (i % 5 == 0) {
@@ -83,7 +94,7 @@ public class Game {
         MasterRenderer masterRenderer = new MasterRenderer();
 
         TexturedModel bunnyModel = new TexturedModel(ObjLoader.loadObjModel("resources/stanfordBunny.obj", modelLoader), new ModelTexture(modelLoader.loadTexture("resources/white.png")));
-        Player player = new Player(bunnyModel, new Vector3f(0, 0, 0), 0,0,0,0.6f);
+        Player player = new Player(bunnyModel, new Vector3f(100, 0, -100), 0,0,0,0.6f);
         Camera camera = new Camera(player);
 
         while (DisplayManager.shouldDisplayClose()) {

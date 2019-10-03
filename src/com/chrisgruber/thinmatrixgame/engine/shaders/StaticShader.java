@@ -4,6 +4,7 @@ import com.chrisgruber.thinmatrixgame.engine.entities.Camera;
 import com.chrisgruber.thinmatrixgame.engine.entities.Light;
 import com.chrisgruber.thinmatrixgame.engine.utils.Maths;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class StaticShader extends ShaderProgramBase {
@@ -19,6 +20,8 @@ public class StaticShader extends ShaderProgramBase {
     private int location_reflectivity;
     private int location_useFakeLighting;
     private int location_skyColor;
+    private int location_numberOfRowsInTextureAtlas;
+    private int location_offset;
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -42,6 +45,8 @@ public class StaticShader extends ShaderProgramBase {
         location_reflectivity = super.getUniformLocation("reflectivity");
         location_useFakeLighting = super.getUniformLocation("useFakeLighting");
         location_skyColor = super.getUniformLocation("skyColor");
+        location_numberOfRowsInTextureAtlas = super.getUniformLocation("numberOfRowsInTextureAtlas");   // texture atlas support
+        location_offset = super.getUniformLocation("offset");   // texture atlas support
     }
 
     public void loadTransformationMatrix(Matrix4f matrix) {
@@ -73,5 +78,13 @@ public class StaticShader extends ShaderProgramBase {
 
     public void loadSkyColor(float r, float g, float b) {
         super.loadVector(location_skyColor, new Vector3f(r, g, b));
+    }
+
+    public void loadNumberOfRowsInTextureAtlas(int numberOfRowsInTextureAtlas) {
+        super.loadFloat(location_numberOfRowsInTextureAtlas, numberOfRowsInTextureAtlas);
+    }
+
+    public void loadOffset(float x, float y) {
+        super.loadVector(location_offset, new Vector2f(x, y));
     }
 }
