@@ -113,7 +113,7 @@ public class Game {
             DisplayManager.updateDisplay();
         }
 
-        masterRenderer.destory();
+        masterRenderer.destroy();
         modelLoader.destroy();
         DisplayManager.closeDisplay();
     }

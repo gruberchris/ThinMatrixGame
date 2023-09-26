@@ -25,13 +25,13 @@ public class MasterRenderer {
     private static final float SKY_GREEN = 0.9f;
     private static final float SKY_BLUE = 0.67f;
 
-    private StaticShader staticShader;
-    private EntityRenderer entityRenderer;
-    private Map<TexturedModel, List<Entity>> entities;
+    private final StaticShader staticShader;
+    private final EntityRenderer entityRenderer;
+    private final Map<TexturedModel, List<Entity>> entities;
     private Matrix4f projectionMatrix;
-    private TerrainRenderer terrainRenderer;
-    private TerrainShader terrainShader;
-    private List<Terrain> terrainList;
+    private final TerrainRenderer terrainRenderer;
+    private final TerrainShader terrainShader;
+    private final List<Terrain> terrainList;
 
     public MasterRenderer() {
         enableCulling();
@@ -45,7 +45,8 @@ public class MasterRenderer {
     }
 
     public static void enableCulling() {
-        // don't texture surfaces with normal vectors facing away from the "camera". don't render back faces of the a model
+        // don't texture surfaces with normal vectors facing away from the "camera".
+        // don't render back faces of a model.
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
     }
@@ -90,7 +91,7 @@ public class MasterRenderer {
         terrainList.add(terrain);
     }
 
-    public void destory() {
+    public void destroy() {
         staticShader.destroy();
         terrainShader.destroy();
     }
