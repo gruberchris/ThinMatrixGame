@@ -12,9 +12,9 @@ import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public class ModelLoader {
-    private List<Integer> vaoList;
-    private List<Integer> vboList;
-    private List<Integer> textureList;
+    private final List<Integer> vaoList;
+    private final List<Integer> vboList;
+    private final List<Integer> textureList;
 
     public ModelLoader() {
         vaoList = new ArrayList<>();
@@ -32,7 +32,7 @@ public class ModelLoader {
     private void storeDataInAttributeList(int attributeNumber, int vertexLength, float[] data) {
         int vboId = glGenBuffers();                                 // initialize an empty VBO
         vboList.add(vboId);
-        glBindBuffer(GL_ARRAY_BUFFER, vboId);                       // select this VBO into the VAO Id specified
+        glBindBuffer(GL_ARRAY_BUFFER, vboId);                       // select this VBO into the VAO id specified
         FloatBuffer buffer = BufferUtils.createFloatBuffer(data);   // make VBO from data
         glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);      // store data into VBO & Not going to edit this data
         glVertexAttribPointer(attributeNumber, vertexLength, GL_FLOAT, false, 0, 0);    // place VBO into VAO
@@ -54,7 +54,7 @@ public class ModelLoader {
     public RawModel loadToVao(float[] positions, float[] textureCoords, float[] normals, int[] indices) {
         int vaoId = createVao();
         bindIndicesBuffer(indices);
-        storeDataInAttributeList(0, 3, positions);     // using VAO attribute 0. Could be any 0 thru 15
+        storeDataInAttributeList(0, 3, positions);     // using VAO attribute 0. Could be any 0 through 15
         storeDataInAttributeList(1, 2, textureCoords);
         storeDataInAttributeList(2, 3, normals);
         unbindVao();
