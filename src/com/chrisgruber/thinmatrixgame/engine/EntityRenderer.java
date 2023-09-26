@@ -16,7 +16,7 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public class EntityRenderer {
-    private StaticShader staticShader;
+    private final StaticShader staticShader;
 
     public EntityRenderer(StaticShader staticShader, Matrix4f projectionMatrix) {
         if (staticShader == null) {
