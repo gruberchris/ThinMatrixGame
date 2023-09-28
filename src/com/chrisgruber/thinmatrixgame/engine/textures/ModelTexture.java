@@ -1,13 +1,13 @@
 package com.chrisgruber.thinmatrixgame.engine.textures;
 
 public class ModelTexture {
-    private int textureId;
+    final private int textureId;
     private float shineDamper;
     private float reflectivity;
     private boolean hasTransparency;
     private int numberOfRowsInTextureAtlas;
 
-    // some models, like the grass model, needs fake lighting to look better as the model is a quad with normals facing in many different directions
+    // some models, like the grass model, need fake lighting to look better as the model is a quad with normals facing in many different directions
     private boolean useFakeLighting;
 
     public ModelTexture(int textureId) {
