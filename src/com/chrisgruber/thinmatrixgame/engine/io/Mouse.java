@@ -10,9 +10,9 @@ public class Mouse {
     private static boolean[] buttons;
     private static double mouseX, mouseY;
     private static double mouseScrollX, mouseScrollY;
-    private GLFWCursorPosCallback mouseMove;
-    private GLFWMouseButtonCallback mouseButtons;
-    private GLFWScrollCallback mouseScroll;
+    final private GLFWCursorPosCallback mouseMove;
+    final private GLFWMouseButtonCallback mouseButtons;
+    final private GLFWScrollCallback mouseScroll;
 
     public Mouse() {
         buttons = new boolean[GLFW_MOUSE_BUTTON_LAST];

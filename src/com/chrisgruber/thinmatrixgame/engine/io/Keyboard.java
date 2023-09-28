@@ -6,7 +6,7 @@ import org.lwjgl.glfw.GLFWKeyCallback;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Keyboard extends GLFWKeyCallback {
-    private static boolean[] keys = new boolean[GLFW_KEY_LAST];
+    final private static boolean[] keys = new boolean[GLFW_KEY_LAST];
 
     public void invoke(long window, int key, int scancode, int action, int mods) {
         keys[key] = action != GLFW.GLFW_RELEASE;
