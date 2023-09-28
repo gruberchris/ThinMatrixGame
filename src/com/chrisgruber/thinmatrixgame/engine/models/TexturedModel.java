@@ -3,8 +3,8 @@ package com.chrisgruber.thinmatrixgame.engine.models;
 import com.chrisgruber.thinmatrixgame.engine.textures.ModelTexture;
 
 public class TexturedModel {
-    private RawModel rawModel;
-    private ModelTexture modelTexture;
+    final private RawModel rawModel;
+    final private ModelTexture modelTexture;
 
     public TexturedModel(RawModel rawModel, ModelTexture modelTexture) {
         this.rawModel = rawModel;
