@@ -22,6 +22,7 @@ public class Game {
         DisplayManager.setShowFPSTitle(true);   // TODO: Debug only
 
         System.out.println("OpenGL: " + DisplayManager.getOpenGlVersionMessage());
+        System.out.println("LWJGL: " + DisplayManager.getLwjglVersionMessage());
 
         ModelLoader modelLoader = new ModelLoader();
 

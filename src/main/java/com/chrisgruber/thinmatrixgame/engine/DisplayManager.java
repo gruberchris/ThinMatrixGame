@@ -10,7 +10,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class DisplayManager {
     private final static int WINDOW_WIDTH = 1280;
-    private final static int WINDOW_HEIGHT = 760;
+    private final static int WINDOW_HEIGHT = 720;
     private static long window;
     private static final String title = "ThinMatrix Game";
     private static int frames;
@@ -95,6 +95,8 @@ public class DisplayManager {
     public static String getOpenGlVersionMessage() {
         return glGetString(GL_VERSION);
     }
+
+    public static String getLwjglVersionMessage() { return org.lwjgl.Version.getVersion(); }
 
     public static void setShowFPSTitle(boolean showFPSTitle) {
         DisplayManager.showFPSTitle = showFPSTitle;
