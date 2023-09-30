@@ -3,6 +3,7 @@ package com.chrisgruber.thinmatrixgame.engine.io;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWScrollCallback;
+import org.lwjgl.system.libffi.FFICIF;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -23,12 +24,48 @@ public class Mouse {
                 mouseX = xpos;
                 mouseY = ypos;
             }
+
+            // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
+            @Override
+            public void close() {
+                super.close();
+            }
+
+            // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
+            @Override
+            public FFICIF getCallInterface() {
+                return super.getCallInterface();
+            }
+
+            // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
+            @Override
+            public void callback(long ret, long args) {
+                super.callback(ret, args);
+            }
         };
 
         mouseButtons = new GLFWMouseButtonCallback() {
             @Override
             public void invoke(long window, int button, int action, int mods) {
                 buttons[button] = (action != GLFW_RELEASE);
+            }
+
+            // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
+            @Override
+            public FFICIF getCallInterface() {
+                return super.getCallInterface();
+            }
+
+            // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
+            @Override
+            public void callback(long ret, long args) {
+                super.callback(ret, args);
+            }
+
+            // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
+            @Override
+            public void close() {
+                super.close();
             }
         };
 
@@ -37,6 +74,24 @@ public class Mouse {
             public void invoke(long window, double offsetX, double offsetY) {
                 mouseScrollX += offsetX;
                 mouseScrollY += offsetY;
+            }
+
+            // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
+            @Override
+            public FFICIF getCallInterface() {
+                return super.getCallInterface();
+            }
+
+            // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
+            @Override
+            public void callback(long ret, long args) {
+                super.callback(ret, args);
+            }
+
+            // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
+            @Override
+            public void close() {
+                super.close();
             }
         };
     }
