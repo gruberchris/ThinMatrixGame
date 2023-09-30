@@ -9,8 +9,8 @@ import static org.lwjgl.opengl.GL.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class DisplayManager {
-    private final static int WINDOW_WIDTH = 1280;
-    private final static int WINDOW_HEIGHT = 720;
+    private static final int WINDOW_WIDTH = 1280;
+    private static final int WINDOW_HEIGHT = 720;
     private static long window;
     private static final String title = "ThinMatrix Game";
     private static int frames;
