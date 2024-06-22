@@ -2,7 +2,6 @@ package com.chrisgruber.thinmatrixgame.engine.io;
 
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.system.libffi.FFICIF;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -15,23 +14,5 @@ public class Keyboard extends GLFWKeyCallback {
 
     public static boolean isKeyDown(int keycode) {
         return keys[keycode];
-    }
-
-    // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
-    @Override
-    public void close() {
-        super.close();
-    }
-
-    // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
-    @Override
-    public void callback(long ret, long args) {
-        super.callback(ret, args);
-    }
-
-    // TODO: Upgrading to LWJGL 3.3.3 seems to have forced implementing these methods
-    @Override
-    public FFICIF getCallInterface() {
-        return super.getCallInterface();
     }
 }
