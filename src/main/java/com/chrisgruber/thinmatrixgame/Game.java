@@ -19,7 +19,10 @@ import java.util.Random;
 public class Game {
     private void start() {
         DisplayManager.createDisplay();
-        DisplayManager.setShowFPSTitle(true);   // TODO: Debug only
+
+        if (java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().contains("-agentlib:jdwp")) {
+            DisplayManager.setShowFPSTitle(true);
+        }
 
         System.out.println("OpenGL: " + DisplayManager.getOpenGlVersionMessage());
         System.out.println("LWJGL: " + DisplayManager.getLwjglVersionMessage());
