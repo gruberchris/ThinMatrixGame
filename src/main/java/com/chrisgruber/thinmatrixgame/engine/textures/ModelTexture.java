@@ -1,7 +1,7 @@
 package com.chrisgruber.thinmatrixgame.engine.textures;
 
 public class ModelTexture {
-    final private int textureId;
+    private final int textureId;
     private float shineDamper;
     private float reflectivity;
     private boolean hasTransparency;

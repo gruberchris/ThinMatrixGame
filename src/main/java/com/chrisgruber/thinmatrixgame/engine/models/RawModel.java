@@ -1,8 +1,8 @@
 package com.chrisgruber.thinmatrixgame.engine.models;
 
 public class RawModel {
-    final private int vaoId;
-    final private int vertexCount;
+    private final int vaoId;
+    private final int vertexCount;
 
     public RawModel(int vaoId, int vertexCount) {
         this.vaoId = vaoId;

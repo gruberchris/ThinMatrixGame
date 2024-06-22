@@ -106,14 +106,14 @@ public class MasterRenderer {
         float aspectRatio = (float) DisplayManager.getWindowWidth() / (float) DisplayManager.getWindowHeight();
         float yScale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio);
         float xScale = yScale / aspectRatio;
-        float frustum_length = FAR_PLANE - NEAR_PLANE;
+        float frustumLength = FAR_PLANE - NEAR_PLANE;
 
         projectionMatrix = new Matrix4f();
         projectionMatrix.m00(xScale);
         projectionMatrix.m11(yScale);
-        projectionMatrix.m22(-((FAR_PLANE + NEAR_PLANE) / frustum_length));
+        projectionMatrix.m22(-((FAR_PLANE + NEAR_PLANE) / frustumLength));
         projectionMatrix.m23(-1);
-        projectionMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustum_length));
+        projectionMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustumLength));
         projectionMatrix.m33(0);
     }
 }

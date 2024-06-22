@@ -6,11 +6,11 @@ import org.joml.Vector3f;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {
-    final private Vector3f position;
+    private final Vector3f position;
     private float pitch;
     private float yaw;
     private float roll;
-    final private Player player;
+    private final Player player;
     private float distanceFromPlayer;
     private float angleAroundPLayer;
 
