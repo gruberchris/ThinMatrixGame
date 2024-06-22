@@ -22,6 +22,7 @@ public class Game {
     private void start() {
         DisplayManager.createDisplay();
 
+        // Show FPS title only if debugging
         if (java.lang.management.ManagementFactory.getRuntimeMXBean().getInputArguments().toString().contains("-agentlib:jdwp")) {
             DisplayManager.setShowFPSTitle(true);
         }
