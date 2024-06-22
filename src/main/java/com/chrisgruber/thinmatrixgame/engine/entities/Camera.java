@@ -11,7 +11,7 @@ public class Camera {
     private float pitch;
     private float yaw;
     private float roll;
-    private Player player;
+    private final Player player;
     private float distanceFromPlayer;
     private float angleAroundPLayer;
 
