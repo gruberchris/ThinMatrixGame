@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
+    Random random = new Random();
+
     private void start() {
         DisplayManager.createDisplay();
 
@@ -61,36 +63,34 @@ public class Game {
 
         List<Entity> entityList = new ArrayList<>();
 
-        Random random = new Random();
-
         for (int i = 0; i < 400; i++) {
-            float x = random.nextFloat() * 800 - 400;
-            float z = random.nextFloat() * -600;
+            float x = this.random.nextFloat() * 800 - 400;
+            float z = this.random.nextFloat() * -600;
             float y = terrain.getHeightOfTerrain(x, z);
 
             if (i % 20 == 0) {
-                entityList.add(new Entity(lowPolyTreeModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 1));
+                entityList.add(new Entity(lowPolyTreeModel, new Vector3f(x, y, z), 0, this.random.nextFloat() * 360, 0, 1));
             }
 
-            x = random.nextFloat() * 800 - 400;
-            z = random.nextFloat() * -600;
+            x = this.random.nextFloat() * 800 - 400;
+            z = this.random.nextFloat() * -600;
             y = terrain.getHeightOfTerrain(x, z);
 
             if (i % 20 == 0) {
-                entityList.add(new Entity(treeModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 5));
+                entityList.add(new Entity(treeModel, new Vector3f(x, y, z), 0, this.random.nextFloat() * 360, 0, 5));
             }
 
-            x = random.nextFloat() * 800 - 400;
-            z = random.nextFloat() * -600;
+            x = this.random.nextFloat() * 800 - 400;
+            z = this.random.nextFloat() * -600;
             y = terrain.getHeightOfTerrain(x, z);
 
             if (i % 10 == 0) {
                 // assigns a random texture for each fern from its texture atlas
-                entityList.add(new Entity(fernModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.9f));
+                entityList.add(new Entity(fernModel, this.random.nextInt(4), new Vector3f(x, y, z), 0, this.random.nextFloat() * 360, 0, 0.9f));
             }
 
             if (i % 5 == 0) {
-                entityList.add(new Entity(grassModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 1));
+                entityList.add(new Entity(grassModel, new Vector3f(x, y, z), 0, this.random.nextFloat() * 360, 0, 1));
             }
         }
 
