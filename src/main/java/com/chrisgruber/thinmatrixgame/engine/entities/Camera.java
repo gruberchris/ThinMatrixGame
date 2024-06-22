@@ -1,30 +1,30 @@
 package com.chrisgruber.thinmatrixgame.engine.entities;
 
 import com.chrisgruber.thinmatrixgame.engine.io.Mouse;
+import com.chrisgruber.thinmatrixgame.engine.io.Keyboard;
 import org.joml.Vector3f;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {
-    private final Vector3f position;
+    private Vector3f position;
     private float pitch;
     private float yaw;
     private float roll;
-    private final Player player;
+    private Player player;
     private float distanceFromPlayer;
     private float angleAroundPLayer;
 
     public Camera(Player player) {
         this.player = player;
-        position = new Vector3f(0, 0,0);
-        distanceFromPlayer = 50;
-        pitch = 20;
+        setCameraDefaultPosition();
     }
 
     public void move() {
         calculateZoom();
         calculatePitch();
         calculateAngleAroundPlayer();
+        checkInputs();
 
         float horizontalDistance = calculateHorizontalDistance();
         float verticalDistance = calculateVerticalDistance();
@@ -91,6 +91,22 @@ public class Camera {
         if (Mouse.isButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
             float angleChange = (float) Mouse.getMouseX() * 0.3f;
             angleAroundPLayer -= angleChange;
+        }
+    }
+
+    private void setCameraDefaultPosition() {
+        position = new Vector3f(0, 0,0);
+        distanceFromPlayer = 50;
+        pitch = 20;
+        yaw = 0;
+        roll = 0;
+        angleAroundPLayer = 0;
+    }
+
+    private void checkInputs() {
+        // reset camera to default position
+        if (Keyboard.isKeyDown(GLFW_KEY_HOME)) {
+            setCameraDefaultPosition();
         }
     }
 
