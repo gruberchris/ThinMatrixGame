@@ -12,7 +12,7 @@ public class DisplayManager {
     private static final int WINDOW_WIDTH = 1280;
     private static final int WINDOW_HEIGHT = 720;
     private static long window;
-    private static final String title = "ThinMatrix Game";
+    private static final String TITLE = "ThinMatrix Game";
     private static int frames;
     private static long time;
     private static boolean showFPSTitle;
@@ -20,6 +20,9 @@ public class DisplayManager {
     private static double deltaInSeconds;
     private static Keyboard keyboard;
     private static Mouse mouse;
+
+    // Hide the constructor
+    private DisplayManager() {}
 
     public static void createDisplay() {
         if (!glfwInit()) {
@@ -32,7 +35,7 @@ public class DisplayManager {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-        window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, title, 0, 0);
+        window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, TITLE, 0, 0);
 
         if (window == 0) {
             throw new RuntimeException("Failed to create window");
@@ -69,7 +72,7 @@ public class DisplayManager {
             frames++;
 
             if (System.currentTimeMillis() > time + 1000) {
-                glfwSetWindowTitle(window, title + " | FPS: " + frames);
+                glfwSetWindowTitle(window, TITLE + " | FPS: " + frames);
                 time = System.currentTimeMillis();
                 frames = 0;
             }
