@@ -62,36 +62,75 @@ public class Game {
         Terrain terrain = new Terrain(0, -1, modelLoader, terrainTexturePack, blendMap, "resources/heightmap.png");
         Terrain terrain2 = new Terrain(-1, -1, modelLoader, terrainTexturePack, blendMap, "resources/heightmap.png");
 
+        List<Terrain> terrains = new ArrayList<>();
+        terrains.add(terrain);
+        terrains.add(terrain2);
+
         List<Entity> entityList = new ArrayList<>();
 
         for (int i = 0; i < 400; i++) {
-            float x = this.random.nextFloat() * 800 - 400;
-            float z = this.random.nextFloat() * -600;
-            float y = terrain.getHeightOfTerrain(x, z);
-
             if (i % 20 == 0) {
-                entityList.add(new Entity(lowPolyTreeModel, new Vector3f(x, y, z), 0, this.random.nextFloat() * 360, 0, 1));
+                // Low poly trees
+                float x = this.random.nextFloat() * 800 - 400;
+                float z = this.random.nextFloat() * -600;
+
+                Terrain currentTerrain = getTerrainAt(x, z, terrains);
+                if (currentTerrain != null) {
+                    float y = currentTerrain.getTerrainHeightForSinglePoint(x, z);
+                    entityList.add(new Entity(lowPolyTreeModel, new Vector3f(x, y, z), 0, this.random.nextFloat() * 360, 0, 1));
+                }
             }
 
-            x = this.random.nextFloat() * 800 - 400;
-            z = this.random.nextFloat() * -600;
-            y = terrain.getHeightOfTerrain(x, z);
-
             if (i % 20 == 0) {
-                entityList.add(new Entity(treeModel, new Vector3f(x, y, z), 0, this.random.nextFloat() * 360, 0, 5));
-            }
+                // Trees
+                float x = this.random.nextFloat() * 800 - 400;
+                float z = this.random.nextFloat() * -600;
 
-            x = this.random.nextFloat() * 800 - 400;
-            z = this.random.nextFloat() * -600;
-            y = terrain.getHeightOfTerrain(x, z);
-
-            if (i % 10 == 0) {
-                // assigns a random texture for each fern from its texture atlas
-                entityList.add(new Entity(fernModel, this.random.nextInt(4), new Vector3f(x, y, z), 0, this.random.nextFloat() * 360, 0, 0.9f));
+                Terrain currentTerrain = getTerrainAt(x, z, terrains);
+                if (currentTerrain != null) {
+                    float y = currentTerrain.getTerrainHeightForSinglePoint(x, z);
+                    entityList.add(new Entity(treeModel, new Vector3f(x, y, z), 0, this.random.nextFloat() * 360, 0, 5));
+                }
             }
 
             if (i % 5 == 0) {
-                entityList.add(new Entity(grassModel, new Vector3f(x, y, z), 0, this.random.nextFloat() * 360, 0, 1));
+                // Ferns
+                float x = this.random.nextFloat() * 800 - 400;
+                float z = this.random.nextFloat() * -600;
+
+                Terrain currentTerrain = getTerrainAt(x, z, terrains);
+                if (currentTerrain != null) {
+                    float y = currentTerrain.getTerrainHeightForSinglePoint(x, z);
+                    entityList.add(new Entity(fernModel, this.random.nextInt(4), new Vector3f(x, y, z), 0, this.random.nextFloat() * 360, 0, 0.9f));
+                }
+            }
+
+            if (i % 50 == 0) {
+                // Grass
+                float x = this.random.nextFloat() * 800 - 400;
+                float z = this.random.nextFloat() * -600;
+
+                Terrain currentTerrain = getTerrainAt(x, z, terrains);
+                if (currentTerrain != null) {
+                    // Get exact height at this point
+                    float y = currentTerrain.getTerrainHeightForSinglePoint(x, z);
+
+                    // Add two adjustments:
+                    // 1. Consistent vertical offset to embed grass base into terrain
+                    // 2. Small random variation to prevent uniform horizontal placement
+                    //float offset = -0.5f;
+                    //float heightVariation = this.random.nextFloat() * 0.3f;
+
+                    entityList.add(new Entity(
+                            grassModel,
+                            //new Vector3f(x, y + offset - heightVariation, z),
+                            new Vector3f(x, y, z),
+                            0,
+                            this.random.nextFloat() * 360,
+                            0,
+                            0.8f + this.random.nextFloat() * 0.4f  // Slight scale variation
+                    ));
+                }
             }
         }
 
@@ -103,7 +142,15 @@ public class Game {
         Camera camera = new Camera(player);
 
         while (DisplayManager.shouldDisplayClose()) {
-            player.move(terrain);   // to do this with multiple Terrain, need to test first to know which Terrain the player's position is in
+            //player.move(terrain);   // to do this with multiple Terrain, need to test first to know which Terrain the player's position is in
+            Terrain playerTerrain = getTerrainAt(player.getPosition().x, player.getPosition().z, terrains);
+            if (playerTerrain != null) {
+                player.move(playerTerrain);
+            } else {
+                // Handle case when player is outside terrain
+                System.out.println("Player " + player.getPosition() + " not found");
+            }
+
             camera.move();
 
             masterRenderer.processEntity(player);
@@ -125,5 +172,22 @@ public class Game {
 
     public static void main(String[] args) {
         new Game().start();
+    }
+
+    private Terrain getTerrainAt(float worldX, float worldZ, List<Terrain> terrains) {
+        for (Terrain terrain : terrains) {
+            // Check if position is within this terrain's bounds
+            float terrainX = terrain.getX();
+            float terrainZ = terrain.getZ();
+            //float size = terrain.getSIZE();
+            float size = 800;
+
+            if (worldX >= terrainX && worldX < terrainX + size &&
+                    worldZ >= terrainZ && worldZ < terrainZ + size) {
+                return terrain;
+            }
+        }
+
+        return null; // No terrain found
     }
 }

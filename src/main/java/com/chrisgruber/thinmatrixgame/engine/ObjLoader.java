@@ -38,15 +38,19 @@ public class ObjLoader {
                 String[] currentLine = line.split(" ");
 
                 if (line.startsWith("v ")) {
+                    // read a vertex
                     Vector3f vertex = new Vector3f(Float.parseFloat(currentLine[1]), Float.parseFloat(currentLine[2]), Float.parseFloat(currentLine[3]));
                     vertices.add(vertex);
                 } else if (line.startsWith("vt ")) {
+                    // read a texture
                     Vector2f texture = new Vector2f(Float.parseFloat(currentLine[1]), Float.parseFloat(currentLine[2]));
                     textures.add(texture);
                 } else if (line.startsWith("vn ")) {
+                    // read a normal
                     Vector3f normal = new Vector3f(Float.parseFloat(currentLine[1]), Float.parseFloat(currentLine[2]), Float.parseFloat(currentLine[3]));
                     normals.add(normal);
                 } else if (line.startsWith("f ")) {
+                    // read a face
                     texturesArray = new float[vertices.size() * 2];
                     normalsArray = new float[vertices.size() * 3];
                     break;
@@ -55,10 +59,12 @@ public class ObjLoader {
 
             while (line != null) {
                 if (!line.startsWith("f ")) {
+                    // skip lines that are not faces
                     line = bufferedReader.readLine();
                     continue;
                 }
 
+                // read a face
                 String[] currentLine = line.split(" ");
                 String[] vertex1 = currentLine[1].split("/");
                 String[] vertex2 = currentLine[2].split("/");
@@ -94,6 +100,7 @@ public class ObjLoader {
         return modelLoader.loadToVao(verticesArray, texturesArray, normalsArray, indicesArray);
     }
 
+    // Helper method to process a vertex
     private static void processVertex(String[] vertexData, List<Integer> indices, List<Vector2f> textures, List<Vector3f> normals, float[] textureArray, float[] normalsArray) {
         int currentVertexPointer = Integer.parseInt(vertexData[0]) - 1;
 

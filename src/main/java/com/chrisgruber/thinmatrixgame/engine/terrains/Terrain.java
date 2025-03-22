@@ -79,6 +79,10 @@ public class Terrain {
         return totalHeight / numSamplePoints;
     }
 
+    public float getTerrainHeightForSinglePoint(float worldX, float worldZ) {
+        return getSingleHeightOfTerrain(worldX, worldZ);
+    }
+
     private float getSingleHeightOfTerrain(float worldX, float worldZ) {
         float terrainX = worldX - this.x;
         float terrainZ = worldZ - this.z;
