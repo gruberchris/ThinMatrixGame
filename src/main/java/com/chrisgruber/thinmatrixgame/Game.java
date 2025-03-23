@@ -93,7 +93,7 @@ public class Game {
                 }
             }
 
-            if (i % 5 == 0) {
+            if (i % 10 == 0) {
                 // Ferns
                 float x = this.random.nextFloat() * 800 - 400;
                 float z = this.random.nextFloat() * -600;
@@ -105,7 +105,7 @@ public class Game {
                 }
             }
 
-            if (i % 50 == 0) {
+            if (i % 5 == 0) {
                 // Grass
                 float x = this.random.nextFloat() * 800 - 400;
                 float z = this.random.nextFloat() * -600;
@@ -118,13 +118,12 @@ public class Game {
                     // Add two adjustments:
                     // 1. Consistent vertical offset to embed grass base into terrain
                     // 2. Small random variation to prevent uniform horizontal placement
-                    //float offset = -0.5f;
-                    //float heightVariation = this.random.nextFloat() * 0.3f;
+                    float offset = -0.5f;
+                    float heightVariation = this.random.nextFloat() * 0.3f;
 
                     entityList.add(new Entity(
                             grassModel,
-                            //new Vector3f(x, y + offset - heightVariation, z),
-                            new Vector3f(x, y, z),
+                            new Vector3f(x, y + offset - heightVariation, z),
                             0,
                             this.random.nextFloat() * 360,
                             0,
