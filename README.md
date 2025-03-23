@@ -23,4 +23,7 @@ Keyboard arrow keys also work for movement. Mouse input is buggy. Good luck!
 
 ## Dependencies
  * LWJGL 3
+
+![img.png](screenshots/img.png)
  
+![img2.png](screenshots/img2.png)
